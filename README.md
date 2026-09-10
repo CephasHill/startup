@@ -51,7 +51,7 @@ I am going to use the required technologies in the following ways.
 - **HTML** - The app will use correct, semantic HTML to structure the user interface. It will consist of at least two main views: a login/authentication screen and the main reading/dashboard canvas.
 - **CSS** - The app will be styled to be fully responsive across mobile devices and desktop screens, utilizing whitespace and accessible color contrast.
 - **React** - The frontend will be built as a Singe Page Application (SPA) using React. Components will modularize features like the reading screen, the friends list, and the login form. React Router will handle navigation between the dashboard and the reading canvas.
-- **Service** - A backend Node.js service will provide endpoints for registering and authenticating users, saving and retrieving user reading progress (streaks), and fetching text data for the selected reading plan.
+- **Service** - A backend Node.js service will provide endpoints for registering and authenticating users, saving and retrieving user reading progress (streaks), and fetching text data for the selected reading plan. The app will also feature a 3rd Party API call to fetch a daily inspirational background image for the dashboard using the public Unsplash API.
 - **DB/Login** - A MongoDB database will securely store user credentials, user streak data, friend connections, and saved bookmarks/messages.
 - **WebSocket** - Real-time communication will be used for the social features. When a user completes their daily reading, their streak update is broadcast live to their friends' dashboards. Users can also push a "shared verse" to a friend's screen in real time.
 
@@ -62,12 +62,12 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Git commit requirement)
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology including your 3rd party API and use of WebSocket
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] I completed the prerequisites for this deliverable (Git commit requirement)
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology including your 3rd party API and use of WebSocket
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ## 🚀 AWS deliverable
 
