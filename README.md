@@ -17,18 +17,23 @@ Building a daily Bible reading habit is hard to do entirely alone. Daily NT Conn
 ### Design
 
 ![Streak Tracking and Daily Assigned Readings](StreakAndAssignedReadings.png)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The home dashboard features a top-level progress bar, a live streak counter, and an interactive checklist of assigned readings for the current day.
 
 ![Active Reading Screen](ActiveReadingScreen.png)
+The active reading interface provides a clean, readable canvas for the biblical text, complete with verse numbers, footnote support, and dropdowns for translation selection and user settings.
 
 ![Library Screen](LibraryScreen.png)
+The library view allows users to seamlessly browse and navigate any part of the New Testament outside their assigned daily reading plan via a categorical tab system.
 
 ```mermaid
 sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
+    actor User
+    actor Server
+    actor Friends
+    User->>Server: Logs in and completes daily NT reading
+    Server->>Database: Saves updated streak
+    Server->>Friends: WebSocket pushes live streak update
+    Friends-->>User: View live progress on dashboard
 ```
 
 ### Key features
