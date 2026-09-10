@@ -1,8 +1,8 @@
-# Your startup name here
+# Daily New Testament
 
 [My Notes](notes.md)
 
-Daily NT Connect is a web application that takes structured New Testament reading plans and transforms them into a shared, social experience.
+Daily New Testament is a web application that takes structured New Testament reading plans and transforms them into a shared, social experience.
 
 > [!NOTE]
 > This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
@@ -12,7 +12,7 @@ Daily NT Connect is a web application that takes structured New Testament readin
 
 ### Elevator pitch
 
-Building a daily Bible reading habit is hard to do entirely alone. Daily NT Connect takes structured New Testament reading plans and transforms them into a shared, social experience. Users can log in, read their daily chapters, track their streaks, and instantly share their favorite verses with a network of friends. By adding live streak updates and real-time verse sharing, the app takes what is typically a solitary activity and turns it into a supportive, community-driven habit.
+Building a daily Bible reading habit is hard to do entirely alone. Daily New Testament takes structured New Testament reading plans and transforms them into a shared, social experience. Users can log in, read their daily chapters, track their streaks, and instantly share their favorite verses with a network of friends. By adding live streak updates and real-time verse sharing, the app takes what is typically a solitary activity and turns it into a supportive, community-driven habit.
 
 ### Design
 
