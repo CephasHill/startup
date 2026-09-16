@@ -11,6 +11,10 @@ This file represents what I have learned about web programming.
 - [Canvas](https://byu.instructure.com)
 - [MDN](https://developer.mozilla.org)
 
+## Helpful commands
+
+- ssh into server: ssh -i [key.pem] ubuntu@peterhill.click
+
 ## AWS
 
 Interesting things I have learned about AWS
