@@ -75,7 +75,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Rented EC2 server** - *I rented an EC2 server.*
 - [x] **Leased domain name** - *I leased the domain peterhill.click.*
-- [x] **Server accessible** from my domain: [https://peterhill.click](https://peterhill.click) - *My website is accessible and supports HTTPS protocol*
+- [x] **Server accessible** from my domain: [https://peterhill.click](https://peterhill.click) - *My website is accessible and supports HTTPS protocol.*
 
 ## 🚀 HTML deliverable
 
