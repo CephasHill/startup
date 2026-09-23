@@ -4,7 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>John 1</title>
+    <style>
+      html.embedded header {
+        display: none;
+      }
+    </style>
+    <script>
+      if (window.self !== window.top) {
+        document.documentElement.classList.add("embedded");
+      }
+    </script>
   </head>
+  <header>
+      <h1>NT Connect</h1>
+
+      <nav>
+        <menu>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="read.html">Read</a></li>
+          <li><a href="library.html">Library</a></li>
+          <li><a href="about.html">About</a></li>
+        </menu>
+      </nav>
+
+      <hr />
+    </header>
   <body>
     <h1>John</h1>
     <h2>Chapter 1</h2>
