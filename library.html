@@ -24,33 +24,81 @@
     </header>
 
     <main>
-      <p>This is the library page.</p>
-      <table>
-        <tr>
-          <th>Matthew</th>
-          <th>Mark</th>
-          <th>Luke</th>
-          <th>John</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td><a href="john01.html">1</a></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>2</td>
-          <td>2</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>3</td>
-          <td>3</td>
-          <td>3</td>
-        </tr>
-      </table>
+      <h2>Reading Library</h2>
+
+      <section aria-labelledby="progress-heading">
+        <h3 id="progress-heading">Your Progress</h3>
+        <dl>
+          <dt>Current plan</dt>
+          <dd>5x5 Weekday Plan</dd>
+          <dt>Reading streak</dt>
+          <dd>7 days</dd>
+          <dt>Today's progress</dt>
+          <dd>1 of 5 chapters completed</dd>
+        </dl>
+        <progress value="1" max="5">1 of 5 chapters completed</progress>
+      </section>
+
+      <section aria-labelledby="settings-heading">
+        <h3 id="settings-heading">Reading Settings</h3>
+        <form>
+          <label for="reading-plan">Reading plan</label>
+          <select id="reading-plan" name="reading-plan">
+            <option>5x5 Weekday Plan</option>
+            <option>90-Day Sprint</option>
+          </select>
+
+          <label for="translation">Translation</label>
+          <select id="translation" name="translation">
+            <option>Berean Standard Bible</option>
+            <option>King James Version</option>
+          </select>
+          <button type="submit">Save settings</button>
+        </form>
+      </section>
+
+      <section aria-labelledby="chapters-heading">
+        <h3 id="chapters-heading">New Testament Chapters</h3>
+        <table>
+          <caption>Available chapters and reading status</caption>
+          <thead>
+            <tr>
+              <th scope="col">Matthew</th>
+              <th scope="col">Mark</th>
+              <th scope="col">Luke</th>
+              <th scope="col">John</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td><a href="john01.html">1</a></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>2</td>
+              <td>2</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>3</td>
+              <td>3</td>
+              <td>3</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="bookmarks-heading">
+        <h3 id="bookmarks-heading">Saved Bookmarks</h3>
+        <ul>
+          <li>John 1:1 - saved verse placeholder</li>
+          <li>John 1:14 - saved verse placeholder</li>
+        </ul>
+      </section>
     </main>
 
     <footer>
