@@ -83,14 +83,14 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
 - [X] **HTML pages** - Added a total of 5 pages (home, read, library, friends, about) for each component of my application.
-- [ ] **Proper HTML element usage** - I used proper use of HTML tags including BODY, NAV, MAIN, HEADER, FOOTER.
-- [ ] **Links** - Each of my pages has a nav menu that links to every other page.
-- [ ] **Text** - My application contains textual content (i.e. John 1)
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [X] **Proper HTML element usage** - I used proper use of HTML tags including BODY, NAV, MAIN, HEADER, FOOTER.
+- [X] **Links** - Each of my pages has a nav menu that links to every other page.
+- [X] **Text** - My application contains textual content (i.e. John 1)
+- [X] **3rd party API placeholder** - I added a placeholder for a 3rd party API service call.
+- [X] **Images** - I added a placeholder image.
+- [X] **Login placeholder** - I added a login placeholder.
+- [X] **DB data placeholder** - My New Testament texts will be held in the DB, and I added John 1.
+- [X] **WebSocket placeholder** - I added the friends page where users can interact with each other and see each other's progress.
 
 ## 🚀 CSS deliverable
 
