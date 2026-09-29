@@ -9,7 +9,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  min-width: 320px;
+  min-width: 20rem;
   font-family: "Roboto", sans-serif;
   background: var(--nt-mist);
   color: var(--nt-ink);
@@ -33,18 +33,21 @@ body {
 main {
   flex: 1;
   min-height: 0;
-  padding-top: 6rem;
+  padding-top: clamp(3rem, 8vw, 6rem);
   padding-bottom: 3rem;
 }
 
 .page-shell {
-  max-width: 960px;
+  max-width: 60rem;
+}
+
+.accent-top {
+  border: 0;
+  border-top: 0.25rem solid var(--nt-gold);
 }
 
 .hero-panel,
 .content-panel {
-  border: 0;
-  border-top: 4px solid var(--nt-gold);
   box-shadow: 0 0.75rem 2rem rgba(24, 50, 75, 0.1);
 }
 
@@ -61,7 +64,7 @@ main {
 }
 
 .verse {
-  border-left: 4px solid var(--nt-gold);
+  border-left: 0.25rem solid var(--nt-gold);
   line-height: 1.8;
 }
 
@@ -71,10 +74,16 @@ main {
 
 #live-updates {
   min-height: 3rem;
+  border-left: 0.25rem solid var(--nt-blue);
+  font-weight: 500;
+}
+
+.chapter-table {
+  min-width: 30rem;
 }
 
 .chapter-copy {
-  max-width: 760px;
+  max-width: 47.5rem;
   font-size: 1.08rem;
   line-height: 1.85;
 }
@@ -101,15 +110,10 @@ footer a {
   color: #f4c969;
 }
 
-@media (max-width: 575px) {
+@media (max-width: 35.9375rem) {
   .navbar-nav {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.25rem 0.75rem;
   }
-
-  main {
-    padding-top: 8rem;
-  }
-
 }
