@@ -5,29 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
     <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <header>
-      <h1>NT Connect<sup>&reg;</sup></h1>
-
-      <nav>
-        <menu>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="read.html">Read</a></li>
-          <li><a href="library.html">Library</a></li>
-          <li><a href="friends.html">Friends</a></li>
-          <li><a href="about.html">About</a></li>
-        </menu>
+      <nav class="navbar navbar-expand-sm navbar-dark">
+        <div class="container page-shell">
+          <a class="navbar-brand fw-semibold" href="index.html">NT Connect</a>
+          <menu class="navbar-nav ms-sm-auto mb-0 ps-0">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="read.html">Read</a></li>
+            <li class="nav-item"><a class="nav-link active" href="library.html">Library</a></li>
+            <li class="nav-item"><a class="nav-link" href="friends.html">Friends</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          </menu>
+        </div>
       </nav>
-
-      <hr />
     </header>
 
-    <main>
-      <h2>Reading Library</h2>
+    <main class="container page-shell">
+      <div class="card content-panel p-4 p-md-5">
+        <h2>Reading Library</h2>
 
       <section aria-labelledby="progress-heading">
-        <h3 id="progress-heading">Your Progress</h3>
+        <h3 id="progress-heading" class="section-title mt-4">Your Progress</h3>
         <dl>
           <dt>Current plan</dt>
           <dd>5x5 Weekday Plan</dd>
@@ -36,76 +43,85 @@
           <dt>Today's progress</dt>
           <dd>1 of 5 chapters completed</dd>
         </dl>
-        <progress value="1" max="5" aria-label="Reading Progress">1 of 5 chapters completed</progress>
+        <progress class="w-100" value="1" max="5" aria-label="Reading Progress">1 of 5 chapters completed</progress>
       </section>
 
       <section aria-labelledby="settings-heading">
-        <h3 id="settings-heading">Reading Settings</h3>
-        <form>
-          <label for="reading-plan">Reading plan</label>
-          <select id="reading-plan" name="reading-plan">
-            <option>5x5 Weekday Plan</option>
-            <option>90-Day Sprint</option>
-          </select>
+        <h3 id="settings-heading" class="section-title mt-4">Reading Settings</h3>
+        <form class="row g-3 align-items-end">
+          <div class="col-md-5">
+            <label class="form-label" for="reading-plan">Reading plan</label>
+            <select class="form-select" id="reading-plan" name="reading-plan">
+              <option>5x5 Weekday Plan</option>
+              <option>90-Day Sprint</option>
+            </select>
+          </div>
 
-          <label for="translation">Translation</label>
-          <select id="translation" name="translation">
-            <option>Berean Standard Bible</option>
-            <option>King James Version</option>
-          </select>
-          <button type="submit">Save settings</button>
+          <div class="col-md-5">
+            <label class="form-label" for="translation">Translation</label>
+            <select class="form-select" id="translation" name="translation">
+              <option>Berean Standard Bible</option>
+              <option>King James Version</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary w-100" type="submit">Save</button>
+          </div>
         </form>
       </section>
 
       <section aria-labelledby="chapters-heading">
-        <h3 id="chapters-heading">New Testament Chapters</h3>
-        <table>
-          <caption>Available chapters and reading status</caption>
-          <thead>
-            <tr>
-              <th scope="col">Matthew</th>
-              <th scope="col">Mark</th>
-              <th scope="col">Luke</th>
-              <th scope="col">John</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td><a href="john01.html">1</a></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>2</td>
-              <td>2</td>
-              <td>2</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>3</td>
-              <td>3</td>
-              <td>3</td>
-            </tr>
-          </tbody>
-        </table>
+        <h3 id="chapters-heading" class="section-title mt-4">New Testament Chapters</h3>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <caption>Available chapters and reading status</caption>
+            <thead>
+              <tr>
+                <th scope="col">Matthew</th>
+                <th scope="col">Mark</th>
+                <th scope="col">Luke</th>
+                <th scope="col">John</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td><a href="john01.html">1</a></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="bookmarks-heading">
-        <h3 id="bookmarks-heading">Saved Bookmarks</h3>
-        <ul>
-          <li>John 1:1 - saved verse placeholder</li>
-          <li>John 1:14 - saved verse placeholder</li>
+        <h3 id="bookmarks-heading" class="section-title mt-4">Saved Bookmarks</h3>
+        <ul class="list-group">
+          <li class="list-group-item">John 1:1 - saved verse placeholder</li>
+          <li class="list-group-item">John 1:14 - saved verse placeholder</li>
         </ul>
       </section>
+      </div>
     </main>
 
-    <footer>
-      <hr />
-      <span class="text-reset">Peter Hill</span>
-      <br />
-      <a href="https://github.com/CephasHill/startup">GitHub</a>
+    <footer class="py-3 text-white-50">
+      <div class="container page-shell d-flex justify-content-between">
+        <span>Peter Hill</span>
+        <a href="https://github.com/CephasHill/startup">GitHub</a>
+      </div>
     </footer>
   </body>
 </html>
