@@ -65,8 +65,12 @@ main {
   line-height: 1.8;
 }
 
-#quote {
+.quote {
   margin-top: 2rem;
+}
+
+#live-updates {
+  min-height: 3rem;
 }
 
 .chapter-copy {

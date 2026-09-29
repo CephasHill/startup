@@ -102,7 +102,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [X] **All visual elements styled using CSS** - All visual elements are styled with CSS.
 - [X] **Responsive to window resizing using flexbox and/or grid display** - Responsive window resizing uses flexbox.
 - [X] **Use of a imported font** - I added Roboto as a font from Google Fonts.
-- [X] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I used element selectors (body, main, footer), class selectors (.navbar, .page-shell, .content-panel, .reader-frame, etc.), pseudo-class selectors (.navbar-brand:hover, .nav-link:hover, .nav-link:active), descendant selectors (.hero-panel h1, .content-panel h2), and an ID selector (#quote).
+- [X] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I used element selectors (body, main, footer), class selectors (.navbar, .page-shell, .content-panel, .reader-frame, etc.), pseudo-class selectors (.navbar-brand:hover, .nav-link:hover, .nav-link:active), descendant selectors (.hero-panel h1, .content-panel h2), and an ID selector (#live-updates) for the unique live activity region.
 
 ## 🚀 React part 1: Routing deliverable
 
