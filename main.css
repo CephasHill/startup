@@ -65,6 +65,10 @@ main {
   line-height: 1.8;
 }
 
+#quote {
+  margin-top: 2rem;
+}
+
 .chapter-copy {
   max-width: 760px;
   font-size: 1.08rem;
