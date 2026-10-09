@@ -5,7 +5,7 @@ export function About() {
     <main className="container page-shell">
       <div className="card content-panel accent-top p-4 p-md-5">
         <div id="picture" className="picture-box mb-4">
-          <img className="img-fluid rounded" width="400" src="placeholder.jpg" alt="Daily inspirational image placeholder" />
+          <img className="img-fluid rounded" width="400" src="placeholder.png" alt="Daily inspirational image placeholder" />
         </div>
 
       <p>
