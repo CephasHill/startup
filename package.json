@@ -22,5 +22,9 @@
   "homepage": "https://github.com/CephasHill/startup#readme",
   "devDependencies": {
     "vite": "^8.3.4"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "react-bootstrap": "^2.10.10"
   }
 }
