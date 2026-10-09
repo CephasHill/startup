@@ -42,6 +42,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/read" element={<Read />} />
         <Route path="/library" element={<Library />} />
+        <Route path="/library/:book/:chapter" element={<Library />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
