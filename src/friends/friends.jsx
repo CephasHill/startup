@@ -10,15 +10,15 @@ export function Friends() {
         <h3 id="friends-list-heading" className="section-title mt-4">Reading Friends</h3>
         <ul className="list-group mb-4">
           <li className="list-group-item d-flex justify-content-between">
-            <strong>Alex Johnson</strong>
+            <strong>Simon Bar Jonah</strong>
             <span>7 day reading streak</span>
           </li>
           <li className="list-group-item d-flex justify-content-between">
-            <strong>Maria Smith</strong>
+            <strong>John son of Zebedee</strong>
             <span>Completed today's reading</span>
           </li>
           <li className="list-group-item d-flex justify-content-between">
-            <strong>Jordan Lee</strong>
+            <strong>Mary of Magdala</strong>
             <span>3 day reading streak</span>
           </li>
         </ul>

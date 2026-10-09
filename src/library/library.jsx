@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export function Library() {
   return (
@@ -61,7 +62,7 @@ export function Library() {
                 <td>1</td>
                 <td>1</td>
                 <td>1</td>
-                <td><a href="john01.html">1</a></td>
+                <td><Link to="/read">1</Link></td>
               </tr>
               <tr>
                 <td>2</td>
