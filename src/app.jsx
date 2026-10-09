@@ -16,22 +16,22 @@ export default function App() {
       <header>
         <nav className="navbar navbar-expand-sm navbar-dark">
           <div className="container page-shell">
-            <a className="navbar-brand fw-semibold" href="index.html">NT Connect</a>
+            <NavLink className="navbar-brand fw-semibold" to="/">NT Connect</NavLink>
             <menu className="navbar-nav ms-sm-auto mb-0 ps-0">
               <li className="nav-item">
-                <a className="nav-link active" href="index.html">Home</a>
+                <NavLink className="nav-link active" to="/">Home</NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="read.html">Read</a>
+                <NavLink className="nav-link" to="read">Read</NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="library.html">Library</a>
+                <NavLink className="nav-link" to="library">Library</NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="friends.html">Friends</a>
+                <NavLink className="nav-link" to="friends">Friends</NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="about.html">About</a>
+                <NavLink className="nav-link" to="about">About</NavLink>
               </li>
             </menu>
           </div>
