@@ -96,13 +96,13 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Visually appealing colors and layout. No overflowing elements.** - I did not complete this part of the deliverable.
-- [ ] **Use of a CSS framework** - I did not complete this part of the deliverable.
-- [ ] **All visual elements styled using CSS** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing using flexbox and/or grid display** - I did not complete this part of the deliverable.
-- [ ] **Use of a imported font** - I did not complete this part of the deliverable.
-- [ ] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I did not complete this part of the deliverable.
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [X] **Visually appealing colors and layout. No overflowing elements.** - I added a blue and white visual theme to the whole app. There are no overflowing elements.
+- [X] **Use of a CSS framework** - I used Bootstrap to get buttons and things working and looking nice.
+- [X] **All visual elements styled using CSS** - All visual elements are styled with CSS.
+- [X] **Responsive to window resizing using flexbox and/or grid display** - Responsive window resizing uses flexbox.
+- [X] **Use of a imported font** - I added Roboto as a font from Google Fonts.
+- [X] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I used element selectors (body, main, footer), class selectors (.navbar, .page-shell, .content-panel, .reader-frame, etc.), pseudo-class selectors (.navbar-brand:hover, .nav-link:hover, .nav-link:active), descendant selectors (.hero-panel h1, .content-panel h2), and an ID selector (#live-updates) for the unique live activity region.
 
 ## 🚀 React part 1: Routing deliverable
 

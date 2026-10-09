@@ -6,52 +6,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NT Connect</title>
     <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <!-- Use header, main, and footer elements to give semantic structure -->
     <header>
-      <h1>NT Connect</h1>
-
-      <!-- Navigation elements -->
-      <nav>
-        <!-- Menu is a semantic alternative to <ul> that represents an interaction -->
-        <menu>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="read.html">Read</a></li>
-          <li><a href="library.html">Library</a></li>
-          <li><a href="friends.html">Friends</a></li>
-          <li><a href="about.html">About</a></li>
-        </menu>
+      <nav class="navbar navbar-expand-sm navbar-dark">
+        <div class="container page-shell">
+          <a class="navbar-brand fw-semibold" href="index.html">NT Connect</a>
+          <menu class="navbar-nav ms-sm-auto mb-0 ps-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="read.html">Read</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="library.html">Library</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="friends.html">Friends</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </menu>
+        </div>
       </nav>
-
-      <!-- Since we don't have the ability to style we use old style HTML to give some visual formatting -->
-      <hr />
     </header>
 
-    <main>
-      <h1>Welcome to NT Connect</h1>
-      <form method="post" action="read.html">
-        <div>
-          <span>@</span>
-          <input type="text" placeholder="your@email.com" />
-        </div>
-        <div>
-          <span>🔒</span>
-          <input type="password" placeholder="password" />
-        </div>
-        <button type="submit">Login</button>
-        <button type="submit">Create</button>
-      </form>
-    <p>
-      Building a daily Bible reading habit is hard to do entirely alone. Daily New Testament takes structured New Testament reading plans and transforms them into a shared, social experience. Users can log in, read their daily chapters, track their streaks, and instantly share their favorite verses with a network of friends. By adding live streak updates and real-time verse sharing, the app takes what is typically a solitary activity and turns it into a supportive, community-driven habit.
-    </p>
+    <main class="container page-shell">
+      <div class="card hero-panel accent-top p-4 p-md-5">
+        <h1 class="display-5 fw-bold">Welcome to NT Connect</h1>
+        <p class="lead">Build a daily New Testament reading habit with friends.</p>
+        <form class="row g-3 mt-2" method="post" action="read.html">
+          <div class="col-12 col-md-6">
+            <label class="visually-hidden" for="email">Email</label>
+            <input id="email" class="form-control form-control-lg" type="email" placeholder="your@email.com" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="visually-hidden" for="password">Password</label>
+            <input id="password" class="form-control form-control-lg" type="password" placeholder="password" />
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary btn-lg me-2" type="submit">Log in</button>
+            <button class="btn btn-outline-secondary btn-lg" type="submit">Create account</button>
+          </div>
+        </form>
+        <p class="mt-4 mb-0">Building a daily Bible reading habit is hard to do entirely alone. NT Connect turns structured reading plans into a supportive, community-driven experience with streaks, shared verses, and friends.</p>
+      </div>
     </main>
         
-    <footer>
-      <hr />
-      <span class="text-reset">Peter Hill</span>
-      <br />
-      <a href="https://github.com/CephasHill/startup">GitHub</a>
+    <footer class="py-3 text-white-50">
+      <div class="container page-shell d-flex justify-content-between">
+        <span>Peter Hill</span>
+        <a href="https://github.com/CephasHill/startup">GitHub</a>
+      </div>
     </footer>
   </body>
 </html>

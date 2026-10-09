@@ -27,6 +27,10 @@ Interesting things I have learned about HTML
 
 Interesting things I have learned about React
 
-## Required
+## CSS
 
-I love web programming
+Flex is used to delimit the header, main, and footer elements. This makes them responsive to different screen sizes.
+The use of absolute positioning relative to the parent element for the game controls.
+The selection based on class attributes to style elements.
+The override of Bootstrap in order to keep the menu from changing the flex direction to column on small screens.
+The use of @media selectors to hide content when the screen is too small.
