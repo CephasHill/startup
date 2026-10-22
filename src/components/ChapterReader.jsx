@@ -14,11 +14,15 @@ function renderText(text) {
   });
 }
 
-export function ChapterReader({ chapter }) {
+export function ChapterReader({ chapter, showHeading = true }) {
   return (
     <article className="container page-shell chapter-copy bg-white p-4 p-md-5">
-      <h1>{chapter.book}</h1>
-      <h2 className="text-secondary">Chapter {chapter.chapter}</h2>
+      {showHeading && (
+        <>
+          <h1>{chapter.book}</h1>
+          <h2 className="text-secondary">Chapter {chapter.chapter}</h2>
+        </>
+      )}
 
       {chapter.content.map((block, index) => {
         if (block.type === 'heading') {

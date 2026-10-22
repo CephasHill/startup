@@ -74,14 +74,47 @@ main {
   min-width: 13rem;
 }
 
-.library-navigator {
+.library-overlay {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
   display: grid;
-  grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 2fr);
-  gap: 2rem;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(24, 50, 75, 0.62);
+}
+
+.library-navigator {
+  width: min(56rem, 100%);
+  max-height: min(42rem, calc(100vh - 2rem));
+  overflow-y: auto;
+  display: grid;
+  gap: 1rem;
   padding: 1.25rem;
   border: 1px solid rgba(24, 50, 75, 0.15);
   border-radius: 0.5rem;
-  background: #f8fbfc;
+  background: #fff;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+.library-navigator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.library-close {
+  border: 0;
+  background: transparent;
+  color: var(--nt-ink);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.library-navigator-content {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 2fr);
+  gap: 2rem;
 }
 
 .library-books {
@@ -179,7 +212,7 @@ footer a {
     gap: 0.25rem 0.75rem;
   }
 
-  .library-navigator {
+  .library-navigator-content {
     grid-template-columns: 1fr;
   }
 

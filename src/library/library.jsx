@@ -21,6 +21,28 @@ export function Library() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [browseBookSlug, setBrowseBookSlug] = useState(activeBookSlug);
+
+  useEffect(() => {
+    setBrowseBookSlug(activeBookSlug);
+  }, [activeBookSlug]);
+
+  useEffect(() => {
+    function closeOnEscape(event) {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, []);
+
+  const browseBook = NEW_TESTAMENT_BOOKS.find((item) => item.slug === browseBookSlug)
+    || selectedBook;
 
   useEffect(() => {
     let cancelled = false;
@@ -84,45 +106,67 @@ export function Library() {
         </div>
 
         {menuOpen && (
-          <div className="library-navigator mt-4" id="library-navigator">
-            <aside className="library-books" aria-label="Bible books">
-              <h2 className="section-title">New Testament</h2>
-              <div className="list-group">
-                {NEW_TESTAMENT_BOOKS.map((item) => (
-                  <Link
-                    className={`list-group-item list-group-item-action ${item.slug === selectedBook.slug ? 'active' : ''}`}
-                    key={item.slug}
-                    to={`/library/${item.slug}/1`}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+          <div className="library-overlay" onClick={() => setMenuOpen(false)}>
+            <div
+              className="library-navigator"
+              id="library-navigator"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Bible navigator"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="library-navigator-header">
+                <h2 className="mb-0">Browse Bible</h2>
+                <button
+                  className="library-close"
+                  type="button"
+                  aria-label="Close Bible navigator"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  &times;
+                </button>
               </div>
-            </aside>
 
-            <section className="library-chapters" aria-labelledby="chapter-picker-heading">
-              <div className="d-flex justify-content-between align-items-center gap-3">
-                <h2 id="chapter-picker-heading" className="mb-0">{selectedBook.name}</h2>
-                <span className="text-secondary">{selectedBook.chapters} chapters</span>
-              </div>
-              <div className="chapter-grid mt-3">
-                {Array.from({ length: selectedBook.chapters }, (_, index) => {
-                  const chapterNumber = index + 1;
+              <div className="library-navigator-content">
+                <aside className="library-books" aria-label="Bible books">
+                  <h3 className="section-title">New Testament</h3>
+                  <div className="list-group">
+                    {NEW_TESTAMENT_BOOKS.map((item) => (
+                      <button
+                        className={`list-group-item list-group-item-action text-start ${item.slug === browseBook.slug ? 'active' : ''}`}
+                        key={item.slug}
+                        type="button"
+                        onClick={() => setBrowseBookSlug(item.slug)}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                </aside>
 
-                  return (
-                    <Link
-                      className={`chapter-button ${activeChapter === chapterNumber ? 'active' : ''}`}
-                      key={chapterNumber}
-                      to={`/library/${selectedBook.slug}/${chapterNumber}`}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {chapterNumber}
-                    </Link>
-                  );
-                })}
+                <section className="library-chapters" aria-labelledby="chapter-picker-heading">
+                  <div className="d-flex justify-content-between align-items-center gap-3">
+                    <h3 id="chapter-picker-heading" className="mb-0">{browseBook.name}</h3>
+                    <span className="text-secondary">{browseBook.chapters} chapters</span>
+                  </div>
+                  <div className="chapter-grid mt-3">
+                    {Array.from({ length: browseBook.chapters }, (_, index) => {
+                      const chapterNumber = index + 1;
+
+                      return (
+                        <Link
+                          className={`chapter-button ${browseBook.slug === selectedBook.slug && activeChapter === chapterNumber ? 'active' : ''}`}
+                          key={chapterNumber}
+                          to={`/library/${browseBook.slug}/${chapterNumber}`}
+                        >
+                          {chapterNumber}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </section>
               </div>
-            </section>
+            </div>
           </div>
         )}
 
@@ -130,7 +174,7 @@ export function Library() {
         {error && <p className="alert alert-danger mt-4">{error}</p>}
         {!loading && !error && selectedChapter && (
           <div className="mt-4">
-            <ChapterReader chapter={selectedChapter} />
+            <ChapterReader chapter={selectedChapter} showHeading={false} />
           </div>
         )}
         {!loading && !error && !selectedChapter && (
