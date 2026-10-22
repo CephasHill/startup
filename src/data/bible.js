@@ -50,8 +50,8 @@ export function saveBibleVersion(version) {
   }
 }
 
-export async function loadGospel(book, version = 'bsb') {
-  const response = await fetch(`/data/bible/${book}_${version}.json`);
+export async function loadGospel(book, version = 'bsb', signal) {
+  const response = await fetch(`/data/bible/${book}_${version}.json`, { signal });
 
   if (!response.ok) {
     throw new Error(`Unable to load the ${book} chapter data for ${version.toUpperCase()}.`);

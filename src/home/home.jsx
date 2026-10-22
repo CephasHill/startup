@@ -1,28 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { getAssignedReadings, getReadingDateKey, PLAN_OPTIONS } from '../data/readingPlan';
-import { useReadingProgress } from '../hooks/useReadingProgress';
+import { getAssignedReadings, PLAN_OPTIONS } from '../data/readingPlan';
 import { useSettings } from '../context/SettingsContext';
+import { useProgress } from '../context/ProgressContext';
 
 export function Home() {
   const assignedReadings = getAssignedReadings();
-  const savedProgress = JSON.parse(localStorage.getItem('nt-connect-progress') || 'null');
-  const readingDate = getReadingDateKey();
   const today = new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   }).format(new Date());
-  const [completedReadings, setCompletedReadings] = useReadingProgress(assignedReadings, readingDate);
   const { plan, setPlan } = useSettings();
-  const [streak] = useState(savedProgress?.streak || 0);
-
-  useEffect(() => {
-    localStorage.setItem(
-      'nt-connect-progress',
-      JSON.stringify({ completedReadings, plan, streak, readingDate })
-    );
-  }, [completedReadings, plan, streak]);
+  const { completedReadings, setCompletedReadings, streak } = useProgress();
 
   const toggleReading = (readingId) => {
     setCompletedReadings((current) =>

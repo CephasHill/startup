@@ -7,10 +7,10 @@ function renderText(text) {
     const footnote = part.match(/^\^\[([^\]]+)\]\^$/);
 
     if (footnote) {
-      return <sup key={index}>{footnote[1]}</sup>;
+      return <sup key={`${part}-${index}`}>{footnote[1]}</sup>;
     }
 
-    return <React.Fragment key={index}>{part}</React.Fragment>;
+    return <React.Fragment key={`${part}-${index}`}>{part}</React.Fragment>;
   });
 }
 
@@ -24,17 +24,17 @@ export function ChapterReader({ chapter, showHeading = true }) {
         </>
       )}
 
-      {chapter.content.map((block, index) => {
+      {chapter.content.map((block) => {
         if (block.type === 'heading') {
-          return <h3 key={index}>{block.text}</h3>;
+          return <h3 key={`${chapter.book}-${chapter.chapter}-heading-${block.text}`}>{block.text}</h3>;
         }
 
         if (block.type === 'verse') {
           return (
-            <p key={index} id={`${chapter.book}-${chapter.chapter}-${block.number}`}>
+            <p key={`${chapter.book}-${chapter.chapter}-verse-${block.number}`} id={`${chapter.book}-${chapter.chapter}-${block.number}`}>
               <strong>{block.number}</strong>{' '}
               {block.lines.map((line, lineIndex) => (
-                <React.Fragment key={lineIndex}>
+                <React.Fragment key={`${line.text}-${lineIndex}`}>
                   {lineIndex > 0 && <br />}
                   {renderText(line.text)}
                 </React.Fragment>

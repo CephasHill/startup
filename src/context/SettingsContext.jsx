@@ -16,6 +16,12 @@ export function SettingsProvider({ children }) {
   const [bibleVersion, setBibleVersionState] = useState(getSavedBibleVersion);
   const [plan, setPlan] = useState(getSavedPlan);
 
+  const changePlan = (nextPlan) => {
+    setPlan(nextPlan);
+    const savedProgress = JSON.parse(localStorage.getItem(progressStorageKey) || 'null') || {};
+    localStorage.setItem(progressStorageKey, JSON.stringify({ ...savedProgress, plan: nextPlan }));
+  };
+
   const setBibleVersion = (version) => {
     if (BIBLE_VERSIONS.some((availableVersion) => availableVersion.value === version)) {
       setBibleVersionState(version);
@@ -24,7 +30,7 @@ export function SettingsProvider({ children }) {
   };
 
   return (
-    <SettingsContext.Provider value={{ bibleVersion, setBibleVersion, plan, setPlan }}>
+    <SettingsContext.Provider value={{ bibleVersion, setBibleVersion, plan, setPlan: changePlan }}>
       {children}
     </SettingsContext.Provider>
   );

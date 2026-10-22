@@ -5,17 +5,14 @@ import {
   BIBLE_VERSIONS,
   loadGospel,
 } from '../data/bible';
-import { getAssignedReadings, getReadingDateKey } from '../data/readingPlan';
-import { useReadingProgress } from '../hooks/useReadingProgress';
+import { getAssignedReadings } from '../data/readingPlan';
 import { useSettings } from '../context/SettingsContext';
-
-const progressStorageKey = 'nt-connect-progress';
+import { useProgress } from '../context/ProgressContext';
 
 export function Read() {
   const { book, chapter } = useParams();
   const navigate = useNavigate();
   const assignedReadings = getAssignedReadings();
-  const readingDate = getReadingDateKey();
   const currentReading = assignedReadings.find(
     (reading) => reading.book === book && reading.chapter === Number(chapter)
   ) || assignedReadings[0];
@@ -26,7 +23,7 @@ export function Read() {
   const { bibleVersion, setBibleVersion } = useSettings();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [completedReadings, setCompletedReadings] = useReadingProgress(assignedReadings, readingDate);
+  const { completedReadings, setCompletedReadings } = useProgress();
 
   useEffect(() => {
     if (!book || Number(chapter) !== currentReading.chapter || book !== currentReading.book) {
@@ -35,24 +32,21 @@ export function Read() {
   }, [book, chapter, currentReading, navigate]);
 
   useEffect(() => {
-    let cancelled = false;
+    const controller = new AbortController();
 
     async function loadChapter() {
       setLoading(true);
       setError('');
 
       try {
-        const data = await loadGospel(currentReading.book, bibleVersion);
-
-        if (!cancelled) {
-          setChapters(data);
-        }
+        const data = await loadGospel(currentReading.book, bibleVersion, controller.signal);
+        setChapters(data);
       } catch (loadError) {
-        if (!cancelled) {
+        if (loadError.name !== 'AbortError') {
           setError(loadError.message);
         }
       } finally {
-        if (!cancelled) {
+        if (!controller.signal.aborted) {
           setLoading(false);
         }
       }
@@ -61,17 +55,9 @@ export function Read() {
     loadChapter();
 
     return () => {
-      cancelled = true;
+      controller.abort();
     };
   }, [bibleVersion, currentReading.book]);
-
-  useEffect(() => {
-    const savedProgress = JSON.parse(localStorage.getItem(progressStorageKey) || 'null') || {};
-    localStorage.setItem(
-      progressStorageKey,
-      JSON.stringify({ ...savedProgress, completedReadings, readingDate })
-    );
-  }, [completedReadings]);
 
   const chapterData = chapters.find((item) => item.chapter === currentReading.chapter);
   const isCompleted = completedReadings.includes(currentReading.id);
