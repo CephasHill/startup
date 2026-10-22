@@ -14,6 +14,9 @@ This file represents what I have learned about web programming.
 ## Helpful commands
 
 - ssh into server: ssh -i [key.pem] ubuntu@peterhill.click
+- install npm: npm install
+- run development npm: npm run dev
+  - press o to open it in the browser
 
 ## AWS
 
