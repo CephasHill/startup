@@ -1,30 +1,94 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChapterReader } from '../components/ChapterReader';
-import { GOSPELS, loadGospel } from '../data/bible';
+import {
+  BIBLE_VERSIONS,
+  NEW_TESTAMENT_BOOKS,
+  getSavedBibleVersion,
+  loadGospel,
+  saveBibleVersion,
+} from '../data/bible';
+
+const lastLibraryChapterKey = 'nt-connect-last-library-chapter';
+
+function getLastLibraryChapter() {
+  return JSON.parse(localStorage.getItem(lastLibraryChapterKey) || 'null')
+    || { book: 'john', chapter: 1 };
+}
+
+function getAdjacentChapter(bookSlug, chapter, offset) {
+  const bookIndex = NEW_TESTAMENT_BOOKS.findIndex((book) => book.slug === bookSlug);
+  const chapterIndex = NEW_TESTAMENT_BOOKS
+    .slice(0, bookIndex)
+    .reduce((total, book) => total + book.chapters, 0) + chapter - 1;
+  const targetIndex = chapterIndex + offset;
+  let remaining = targetIndex;
+
+  if (targetIndex < 0 || targetIndex >= NEW_TESTAMENT_BOOKS.reduce(
+    (total, book) => total + book.chapters,
+    0
+  )) {
+    return null;
+  }
+
+  for (const book of NEW_TESTAMENT_BOOKS) {
+    if (remaining < book.chapters) {
+      return {
+        book: book.slug,
+        chapter: remaining + 1,
+        label: `${book.name} ${remaining + 1}`,
+      };
+    }
+    remaining -= book.chapters;
+  }
+
+  return null;
+}
 
 export function Library() {
   const { book, chapter } = useParams();
+  const lastChapter = getLastLibraryChapter();
+  const activeBookSlug = book || lastChapter.book;
+  const selectedBook = NEW_TESTAMENT_BOOKS.find((item) => item.slug === activeBookSlug)
+    || NEW_TESTAMENT_BOOKS.find((item) => item.slug === 'john');
+  const activeChapter = Number(chapter || (book ? 1 : lastChapter.chapter));
   const [chapters, setChapters] = useState([]);
-  const [loading, setLoading] = useState(Boolean(book));
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [browseBookSlug, setBrowseBookSlug] = useState(activeBookSlug);
+  const [bibleVersion, setBibleVersion] = useState(getSavedBibleVersion);
 
   useEffect(() => {
-    if (!book) {
-      setChapters([]);
-      setLoading(false);
-      setError('');
-      return undefined;
+    setBrowseBookSlug(activeBookSlug);
+  }, [activeBookSlug]);
+
+  useEffect(() => {
+    function closeOnEscape(event) {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+      }
     }
 
+    document.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, []);
+
+  const browseBook = NEW_TESTAMENT_BOOKS.find((item) => item.slug === browseBookSlug)
+    || selectedBook;
+
+  useEffect(() => {
     let cancelled = false;
 
-    async function loadSelectedGospel() {
+    async function loadSelectedBook() {
       setLoading(true);
       setError('');
 
       try {
-        const data = await loadGospel(book);
+        const data = await loadGospel(selectedBook.slug, bibleVersion);
 
         if (!cancelled) {
           setChapters(data);
@@ -40,103 +104,158 @@ export function Library() {
       }
     }
 
-    loadSelectedGospel();
+    loadSelectedBook();
 
     return () => {
       cancelled = true;
     };
-  }, [book]);
+  }, [bibleVersion, selectedBook.slug]);
 
-  const selectedChapter = chapters.find(
-    (item) => item.chapter === Number(chapter)
-  );
+  const changeBibleVersion = (event) => {
+    const nextVersion = event.target.value;
+    setBibleVersion(nextVersion);
+    saveBibleVersion(nextVersion);
+  };
+
+  useEffect(() => {
+    if (activeChapter >= 1 && activeChapter <= selectedBook.chapters) {
+      localStorage.setItem(
+        lastLibraryChapterKey,
+        JSON.stringify({ book: selectedBook.slug, chapter: activeChapter })
+      );
+    }
+  }, [activeChapter, selectedBook.slug, selectedBook.chapters]);
+
+  const selectedChapter = chapters.find((item) => item.chapter === activeChapter);
+  const previousChapter = getAdjacentChapter(selectedBook.slug, activeChapter, -1);
+  const nextChapter = getAdjacentChapter(selectedBook.slug, activeChapter, 1);
 
   return (
     <main className="container page-shell">
       <div className="card content-panel accent-top p-4 p-md-5">
-        <h2>Reading Library</h2>
-
-      <section aria-labelledby="progress-heading">
-        <h3 id="progress-heading" className="section-title mt-4">Your Progress</h3>
-        <dl>
-          <dt>Current plan</dt>
-          <dd>5x5 Weekday Plan</dd>
-          <dt>Reading streak</dt>
-          <dd>7 days</dd>
-          <dt>Today's progress</dt>
-          <dd>1 of 5 chapters completed</dd>
-        </dl>
-        <progress className="w-100" value="1" max="5" aria-label="Reading Progress">1 of 5 chapters completed</progress>
-      </section>
-
-      <section aria-labelledby="settings-heading">
-        <h3 id="settings-heading" className="section-title mt-4">Reading Settings</h3>
-        <form className="row g-3 align-items-end">
-          <div className="col-md-5">
-            <label className="form-label" htmlFor="reading-plan">Reading plan</label>
-            <select className="form-select" id="reading-plan" name="reading-plan">
-              <option>5x5 Weekday Plan</option>
-              <option>90-Day Sprint</option>
-            </select>
+        <div className="library-reading-header">
+          <div>
+            <p className="section-title mb-1">Bible Library</p>
+            <h1 className="mb-0">{selectedBook.name} {activeChapter}</h1>
           </div>
-
-          <div className="col-md-5">
-            <label className="form-label" htmlFor="translation">Translation</label>
-            <select className="form-select" id="translation" name="translation">
-              <option>Berean Standard Bible</option>
-              <option>King James Version</option>
-            </select>
+          <div className="d-flex flex-wrap align-items-center gap-2">
+            <label className="translation-picker" htmlFor="bible-version">
+              <span>Version</span>
+              <select
+                id="bible-version"
+                value={bibleVersion}
+                onChange={changeBibleVersion}
+              >
+                {BIBLE_VERSIONS.map((version) => (
+                  <option key={version.value} value={version.value}>{version.label}</option>
+                ))}
+              </select>
+            </label>
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="library-navigator"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? 'Close navigator' : 'Browse Bible'}
+            </button>
           </div>
-          <div className="col-md-2">
-            <button className="btn btn-primary w-100" type="submit">Save</button>
-          </div>
-        </form>
-      </section>
+        </div>
 
-      <section aria-labelledby="chapters-heading">
-        <h3 id="chapters-heading" className="section-title mt-4">Gospel Chapters</h3>
-        <div className="row g-4">
-          {GOSPELS.map((gospel) => (
-            <section className="col-12 col-md-6" key={gospel.slug}>
-              <h4>{gospel.name}</h4>
-              <div className="d-flex flex-wrap gap-2">
-                {Array.from({ length: gospel.chapters }, (_, index) => {
-                  const chapterNumber = index + 1;
-
-                  return (
-                    <Link
-                      className="btn btn-outline-primary"
-                      key={chapterNumber}
-                      to={`/library/${gospel.slug}/${chapterNumber}`}
-                    >
-                      {chapterNumber}
-                    </Link>
-                  );
-                })}
+        {menuOpen && (
+          <div className="library-overlay" onClick={() => setMenuOpen(false)}>
+            <div
+              className="library-navigator"
+              id="library-navigator"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Bible navigator"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="library-navigator-header">
+                <h2 className="mb-0">Browse Bible</h2>
+                <button
+                  className="library-close"
+                  type="button"
+                  aria-label="Close Bible navigator"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  &times;
+                </button>
               </div>
-            </section>
-          ))}
-        </div>
-      </section>
 
-      <section aria-labelledby="bookmarks-heading">
-        <h3 id="bookmarks-heading" className="section-title mt-4">Saved Bookmarks</h3>
-        <ul className="list-group">
-          <li className="list-group-item">John 1:1 - saved verse placeholder</li>
-          <li className="list-group-item">John 1:14 - saved verse placeholder</li>
-        </ul>
-      </section>
+              <div className="library-navigator-content">
+                <aside className="library-books" aria-label="Bible books">
+                  <h3 className="section-title">New Testament</h3>
+                  <div className="list-group">
+                    {NEW_TESTAMENT_BOOKS.map((item) => (
+                      <button
+                        className={`list-group-item list-group-item-action text-start ${item.slug === browseBook.slug ? 'active' : ''}`}
+                        key={item.slug}
+                        type="button"
+                        onClick={() => setBrowseBookSlug(item.slug)}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                </aside>
 
-      {book && loading && <p className="mt-4">Loading chapter...</p>}
-      {book && error && <p className="alert alert-danger mt-4">{error}</p>}
-      {book && !loading && !error && selectedChapter && (
-        <div className="mt-4">
-          <ChapterReader chapter={selectedChapter} />
-        </div>
-      )}
-      {book && !loading && !error && !selectedChapter && (
-        <p className="alert alert-warning mt-4">Chapter not found.</p>
-      )}
+                <section className="library-chapters" aria-labelledby="chapter-picker-heading">
+                  <div className="d-flex justify-content-between align-items-center gap-3">
+                    <h3 id="chapter-picker-heading" className="mb-0">{browseBook.name}</h3>
+                    <span className="text-secondary">{browseBook.chapters} chapters</span>
+                  </div>
+                  <div className="chapter-grid mt-3">
+                    {Array.from({ length: browseBook.chapters }, (_, index) => {
+                      const chapterNumber = index + 1;
+
+                      return (
+                        <Link
+                          className={`chapter-button ${browseBook.slug === selectedBook.slug && activeChapter === chapterNumber ? 'active' : ''}`}
+                          key={chapterNumber}
+                          to={`/library/${browseBook.slug}/${chapterNumber}`}
+                        >
+                          {chapterNumber}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {loading && <p className="mt-4">Loading chapter...</p>}
+        {error && <p className="alert alert-danger mt-4">{error}</p>}
+        {!loading && !error && selectedChapter && (
+          <div className="mt-4">
+            <nav className="library-chapter-nav" aria-label="Chapter navigation">
+              {previousChapter ? (
+                <Link
+                  className="btn btn-outline-primary"
+                  to={`/library/${previousChapter.book}/${previousChapter.chapter}`}
+                >
+                  &larr; Previous
+                </Link>
+              ) : null}
+              {nextChapter ? (
+                <Link
+                  className="btn btn-outline-primary"
+                  to={`/library/${nextChapter.book}/${nextChapter.chapter}`}
+                >
+                  Next &rarr;
+                </Link>
+              ) : null}
+            </nav>
+            <ChapterReader chapter={selectedChapter} showHeading={false} />
+          </div>
+        )}
+        {!loading && !error && !selectedChapter && (
+          <p className="alert alert-warning mt-4">Chapter not found.</p>
+        )}
       </div>
     </main>
   );
