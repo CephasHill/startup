@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const assignedReadings = [
-  { id: 'john-1', label: 'John 1', detail: 'The Word became flesh', to: '/library/john/1' },
-  { id: 'matthew-1', label: 'Matthew 1', detail: 'The genealogy of Jesus', to: '/library/matthew/1' },
-  { id: 'mark-1', label: 'Mark 1', detail: 'The beginning of the gospel', to: '/library/mark/1' },
-  { id: 'luke-1', label: 'Luke 1', detail: 'The birth of John foretold', to: '/library/luke/1' },
-  { id: 'john-2', label: 'John 2', detail: 'Jesus performs His first miracle', to: '/library/john/2' },
-];
+import { ASSIGNED_READINGS } from '../data/readingPlan';
 
 export function Home() {
   const savedProgress = JSON.parse(localStorage.getItem('nt-connect-progress') || 'null');
@@ -55,13 +48,13 @@ export function Home() {
         <section aria-labelledby="progress-heading">
           <h2 id="progress-heading" className="section-title mt-5">Your progress</h2>
           <div className="d-flex justify-content-between mb-2">
-            <span>{completedReadings.length} of {assignedReadings.length} chapters completed</span>
-            <strong>{Math.round((completedReadings.length / assignedReadings.length) * 100)}%</strong>
+            <span>{completedReadings.length} of {ASSIGNED_READINGS.length} chapters completed</span>
+            <strong>{Math.round((completedReadings.length / ASSIGNED_READINGS.length) * 100)}%</strong>
           </div>
           <progress
             className="w-100"
             value={completedReadings.length}
-            max={assignedReadings.length}
+            max={ASSIGNED_READINGS.length}
             aria-label="Today's reading progress"
           />
         </section>
@@ -86,7 +79,7 @@ export function Home() {
         <section aria-labelledby="assigned-heading">
           <h2 id="assigned-heading" className="section-title mt-4">Today's assigned readings</h2>
           <div className="list-group">
-            {assignedReadings.map((reading) => {
+            {ASSIGNED_READINGS.map((reading) => {
               const completed = completedReadings.includes(reading.id);
 
               return (
@@ -104,7 +97,7 @@ export function Home() {
                     </label>
                     <span className="small text-secondary">{reading.detail}</span>
                   </div>
-                  <Link className="btn btn-sm btn-outline-primary" to={reading.to}>Read</Link>
+                  <Link className="btn btn-sm btn-outline-primary" to={`/read/${reading.book}/${reading.chapter}`}>Read</Link>
                 </div>
               );
             })}

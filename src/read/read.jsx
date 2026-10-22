@@ -1,21 +1,46 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ChapterReader } from '../components/ChapterReader';
 import { loadGospel } from '../data/bible';
+import { ASSIGNED_READINGS } from '../data/readingPlan';
+
+const progressStorageKey = 'nt-connect-progress';
+
+function getSavedProgress() {
+  return JSON.parse(localStorage.getItem(progressStorageKey) || 'null') || {};
+}
 
 export function Read() {
+  const { book, chapter } = useParams();
+  const navigate = useNavigate();
+  const currentReading = ASSIGNED_READINGS.find(
+    (reading) => reading.book === book && reading.chapter === Number(chapter)
+  ) || ASSIGNED_READINGS[0];
+  const currentIndex = ASSIGNED_READINGS.findIndex((reading) => reading.id === currentReading.id);
+  const previousReading = ASSIGNED_READINGS[currentIndex - 1];
+  const nextReading = ASSIGNED_READINGS[currentIndex + 1];
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [completedReadings, setCompletedReadings] = useState(
+    getSavedProgress().completedReadings || ['john-1']
+  );
+
+  useEffect(() => {
+    if (!book || Number(chapter) !== currentReading.chapter || book !== currentReading.book) {
+      navigate(`/read/${currentReading.book}/${currentReading.chapter}`, { replace: true });
+    }
+  }, [book, chapter, currentReading, navigate]);
 
   useEffect(() => {
     let cancelled = false;
 
-    async function loadChapters() {
+    async function loadChapter() {
       setLoading(true);
       setError('');
 
       try {
-        const data = await loadGospel('john');
+        const data = await loadGospel(currentReading.book);
 
         if (!cancelled) {
           setChapters(data);
@@ -31,30 +56,76 @@ export function Read() {
       }
     }
 
-    loadChapters();
+    loadChapter();
 
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [currentReading.book]);
+
+  useEffect(() => {
+    const savedProgress = getSavedProgress();
+    localStorage.setItem(
+      progressStorageKey,
+      JSON.stringify({ ...savedProgress, completedReadings })
+    );
+  }, [completedReadings]);
+
+  const chapterData = chapters.find((item) => item.chapter === currentReading.chapter);
+  const isCompleted = completedReadings.includes(currentReading.id);
+
+  const toggleCompleted = () => {
+    setCompletedReadings((current) =>
+      current.includes(currentReading.id)
+        ? current.filter((id) => id !== currentReading.id)
+        : [...current, currentReading.id]
+    );
+  };
 
   if (loading) {
     return <main className="container page-shell">Loading chapter...</main>;
   }
 
   if (error) {
-    return <main className="container page-shell">{error}</main>;
+    return <main className="container page-shell"><p className="alert alert-danger">{error}</p></main>;
   }
-
-  const chapterData = chapters.find((item) => item.chapter === 1);
 
   if (!chapterData) {
-    return (
-      <main className="container page-shell">
-        Chapter not found.
-      </main>
-    );
+    return <main className="container page-shell"><p className="alert alert-warning">Chapter not found.</p></main>;
   }
 
-  return <ChapterReader chapter={chapterData} />;
+  return (
+    <main className="container page-shell reader-main">
+      <div className="d-flex justify-content-between align-items-center gap-3 mb-3">
+        {previousReading ? (
+          <Link className="btn btn-outline-primary" to={`/read/${previousReading.book}/${previousReading.chapter}`}>
+            &larr; Previous
+          </Link>
+        ) : <span />}
+        <span className="text-secondary text-center">{currentReading.label} of {ASSIGNED_READINGS.length}</span>
+        {nextReading ? (
+          <Link className="btn btn-outline-primary" to={`/read/${nextReading.book}/${nextReading.chapter}`}>
+            Next &rarr;
+          </Link>
+        ) : <span />}
+      </div>
+
+      <ChapterReader chapter={chapterData} />
+
+      <div className="card p-3 mt-3">
+        <label className="d-flex align-items-center gap-3 mb-0">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={isCompleted}
+            onChange={toggleCompleted}
+          />
+          <span>
+            <strong>Mark {currentReading.label} as complete</strong>
+            <span className="d-block text-secondary small">Your progress will be saved to this browser.</span>
+          </span>
+        </label>
+      </div>
+    </main>
+  );
 }

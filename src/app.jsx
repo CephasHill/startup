@@ -46,6 +46,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/read" element={<Read />} />
+        <Route path="/read/:book/:chapter" element={<Read />} />
         <Route path="/library" element={<Library />} />
         <Route path="/library/:book/:chapter" element={<Library />} />
         <Route path="/friends" element={<Friends />} />
