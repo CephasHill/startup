@@ -123,17 +123,18 @@ export function Read() {
         ) : <span />}
         <div className="d-flex flex-column align-items-center gap-1">
           <span className="text-secondary text-center">Reading {currentIndex + 1} of {assignedReadings.length}</span>
-          <label className="visually-hidden" htmlFor="read-bible-version">Bible version</label>
-          <select
-            className="form-select form-select-sm"
-            id="read-bible-version"
-            value={bibleVersion}
-            onChange={changeBibleVersion}
-          >
-            {BIBLE_VERSIONS.map((version) => (
-              <option key={version.value} value={version.value}>{version.label}</option>
-            ))}
-          </select>
+          <label className="translation-picker translation-picker-compact" htmlFor="read-bible-version">
+            <span>Version</span>
+            <select
+              id="read-bible-version"
+              value={bibleVersion}
+              onChange={changeBibleVersion}
+            >
+              {BIBLE_VERSIONS.map((version) => (
+                <option key={version.value} value={version.value}>{version.label}</option>
+              ))}
+            </select>
+          </label>
         </div>
         {nextReading ? (
           <Link className="btn btn-outline-primary" to={`/read/${nextReading.book}/${nextReading.chapter}`}>

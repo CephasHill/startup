@@ -32,7 +32,7 @@ export const GOSPELS = NEW_TESTAMENT_BOOKS.slice(0, 4);
 
 export const BIBLE_VERSIONS = [
   { value: 'bsb', label: 'BSB' },
-  { value: 'kjv', label: 'KJV (AKJV text)' },
+  { value: 'kjv', label: 'KJV' },
 ];
 
 const bibleVersionStorageKey = 'nt-connect-bible-version';

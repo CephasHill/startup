@@ -16,6 +16,35 @@ function getLastLibraryChapter() {
     || { book: 'john', chapter: 1 };
 }
 
+function getAdjacentChapter(bookSlug, chapter, offset) {
+  const bookIndex = NEW_TESTAMENT_BOOKS.findIndex((book) => book.slug === bookSlug);
+  const chapterIndex = NEW_TESTAMENT_BOOKS
+    .slice(0, bookIndex)
+    .reduce((total, book) => total + book.chapters, 0) + chapter - 1;
+  const targetIndex = chapterIndex + offset;
+  let remaining = targetIndex;
+
+  if (targetIndex < 0 || targetIndex >= NEW_TESTAMENT_BOOKS.reduce(
+    (total, book) => total + book.chapters,
+    0
+  )) {
+    return null;
+  }
+
+  for (const book of NEW_TESTAMENT_BOOKS) {
+    if (remaining < book.chapters) {
+      return {
+        book: book.slug,
+        chapter: remaining + 1,
+        label: `${book.name} ${remaining + 1}`,
+      };
+    }
+    remaining -= book.chapters;
+  }
+
+  return null;
+}
+
 export function Library() {
   const { book, chapter } = useParams();
   const lastChapter = getLastLibraryChapter();
@@ -98,6 +127,8 @@ export function Library() {
   }, [activeChapter, selectedBook.slug, selectedBook.chapters]);
 
   const selectedChapter = chapters.find((item) => item.chapter === activeChapter);
+  const previousChapter = getAdjacentChapter(selectedBook.slug, activeChapter, -1);
+  const nextChapter = getAdjacentChapter(selectedBook.slug, activeChapter, 1);
 
   return (
     <main className="container page-shell">
@@ -108,17 +139,18 @@ export function Library() {
             <h1 className="mb-0">{selectedBook.name} {activeChapter}</h1>
           </div>
           <div className="d-flex flex-wrap align-items-center gap-2">
-            <label className="visually-hidden" htmlFor="bible-version">Bible version</label>
-            <select
-              className="form-select"
-              id="bible-version"
-              value={bibleVersion}
-              onChange={changeBibleVersion}
-            >
-              {BIBLE_VERSIONS.map((version) => (
-                <option key={version.value} value={version.value}>{version.label}</option>
-              ))}
-            </select>
+            <label className="translation-picker" htmlFor="bible-version">
+              <span>Version</span>
+              <select
+                id="bible-version"
+                value={bibleVersion}
+                onChange={changeBibleVersion}
+              >
+                {BIBLE_VERSIONS.map((version) => (
+                  <option key={version.value} value={version.value}>{version.label}</option>
+                ))}
+              </select>
+            </label>
             <button
               className="btn btn-outline-primary"
               type="button"
@@ -200,6 +232,24 @@ export function Library() {
         {error && <p className="alert alert-danger mt-4">{error}</p>}
         {!loading && !error && selectedChapter && (
           <div className="mt-4">
+            <nav className="library-chapter-nav" aria-label="Chapter navigation">
+              {previousChapter ? (
+                <Link
+                  className="btn btn-outline-primary"
+                  to={`/library/${previousChapter.book}/${previousChapter.chapter}`}
+                >
+                  &larr; Previous
+                </Link>
+              ) : null}
+              {nextChapter ? (
+                <Link
+                  className="btn btn-outline-primary"
+                  to={`/library/${nextChapter.book}/${nextChapter.chapter}`}
+                >
+                  Next &rarr;
+                </Link>
+              ) : null}
+            </nav>
             <ChapterReader chapter={selectedChapter} showHeading={false} />
           </div>
         )}

@@ -74,6 +74,42 @@ main {
   min-width: 13rem;
 }
 
+.translation-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.65rem 0.25rem 0.75rem;
+  border: 1px solid rgba(36, 107, 143, 0.35);
+  border-radius: 2rem;
+  background: var(--nt-mist);
+  color: var(--nt-blue);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.translation-picker select {
+  min-width: 7.25rem;
+  padding: 0.2rem 1.5rem 0.2rem 0.25rem;
+  border: 0;
+  background-color: transparent;
+  color: var(--nt-ink);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.translation-picker select:focus {
+  outline: 2px solid var(--nt-gold);
+  outline-offset: 2px;
+}
+
+.translation-picker-compact {
+  background: #fff;
+}
+
 .library-overlay {
   position: fixed;
   z-index: 10;
@@ -158,6 +194,14 @@ main {
   color: #fff;
 }
 
+.library-chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .verse {
   border-left: 0.25rem solid var(--nt-gold);
   line-height: 1.8;
@@ -218,5 +262,9 @@ footer a {
 
   .library-books {
     max-height: 15rem;
+  }
+
+  .library-chapter-nav {
+    gap: 0.5rem;
   }
 }
