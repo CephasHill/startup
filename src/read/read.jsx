@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ChapterReader } from '../components/ChapterReader';
 import { loadGospel } from '../data/bible';
-import { ASSIGNED_READINGS } from '../data/readingPlan';
+import { getAssignedReadings, getReadingDateKey } from '../data/readingPlan';
 
 const progressStorageKey = 'nt-connect-progress';
 
@@ -13,17 +13,24 @@ function getSavedProgress() {
 export function Read() {
   const { book, chapter } = useParams();
   const navigate = useNavigate();
-  const currentReading = ASSIGNED_READINGS.find(
+  const assignedReadings = getAssignedReadings();
+  const readingDate = getReadingDateKey();
+  const currentReading = assignedReadings.find(
     (reading) => reading.book === book && reading.chapter === Number(chapter)
-  ) || ASSIGNED_READINGS[0];
-  const currentIndex = ASSIGNED_READINGS.findIndex((reading) => reading.id === currentReading.id);
-  const previousReading = ASSIGNED_READINGS[currentIndex - 1];
-  const nextReading = ASSIGNED_READINGS[currentIndex + 1];
+  ) || assignedReadings[0];
+  const currentIndex = assignedReadings.findIndex((reading) => reading.id === currentReading.id);
+  const previousReading = assignedReadings[currentIndex - 1];
+  const nextReading = assignedReadings[currentIndex + 1];
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const savedProgress = getSavedProgress();
   const [completedReadings, setCompletedReadings] = useState(
-    getSavedProgress().completedReadings || ['john-1']
+    savedProgress.readingDate === readingDate
+      ? (savedProgress.completedReadings || []).filter((id) =>
+        assignedReadings.some((reading) => reading.id === id)
+      )
+      : []
   );
 
   useEffect(() => {
@@ -67,7 +74,7 @@ export function Read() {
     const savedProgress = getSavedProgress();
     localStorage.setItem(
       progressStorageKey,
-      JSON.stringify({ ...savedProgress, completedReadings })
+      JSON.stringify({ ...savedProgress, completedReadings, readingDate })
     );
   }, [completedReadings]);
 
@@ -102,7 +109,7 @@ export function Read() {
             &larr; Previous
           </Link>
         ) : <span />}
-        <span className="text-secondary text-center">{currentReading.label} of {ASSIGNED_READINGS.length}</span>
+        <span className="text-secondary text-center">Reading {currentIndex + 1} of {assignedReadings.length}</span>
         {nextReading ? (
           <Link className="btn btn-outline-primary" to={`/read/${nextReading.book}/${nextReading.chapter}`}>
             Next &rarr;

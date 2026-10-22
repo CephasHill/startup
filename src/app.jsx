@@ -48,6 +48,7 @@ export default function App() {
         <Route path="/read" element={<Read />} />
         <Route path="/read/:book/:chapter" element={<Read />} />
         <Route path="/library" element={<Library />} />
+        <Route path="/library/:book" element={<Library />} />
         <Route path="/library/:book/:chapter" element={<Library />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/about" element={<About />} />

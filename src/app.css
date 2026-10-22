@@ -74,6 +74,57 @@ main {
   min-width: 13rem;
 }
 
+.library-navigator {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 2fr);
+  gap: 2rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(24, 50, 75, 0.15);
+  border-radius: 0.5rem;
+  background: #f8fbfc;
+}
+
+.library-books {
+  max-height: 32rem;
+  overflow-y: auto;
+}
+
+.library-books .list-group-item {
+  border-left: 0;
+  border-right: 0;
+  color: var(--nt-ink);
+}
+
+.library-books .list-group-item.active {
+  background: var(--nt-ink);
+  border-color: var(--nt-ink);
+  color: #fff !important;
+}
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+  gap: 0.65rem;
+}
+
+.chapter-button {
+  display: grid;
+  min-height: 3.25rem;
+  place-items: center;
+  border-radius: 0.5rem;
+  background: var(--nt-mist);
+  color: var(--nt-ink);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.chapter-button:hover,
+.chapter-button.active {
+  background: var(--nt-blue);
+  color: #fff;
+}
+
 .verse {
   border-left: 0.25rem solid var(--nt-gold);
   line-height: 1.8;
@@ -126,5 +177,13 @@ footer a {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.25rem 0.75rem;
+  }
+
+  .library-navigator {
+    grid-template-columns: 1fr;
+  }
+
+  .library-books {
+    max-height: 15rem;
   }
 }

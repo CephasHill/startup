@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ASSIGNED_READINGS } from '../data/readingPlan';
+import { getAssignedReadings, getReadingDateKey, PLAN_OPTIONS } from '../data/readingPlan';
 
 export function Home() {
+  const assignedReadings = getAssignedReadings();
   const savedProgress = JSON.parse(localStorage.getItem('nt-connect-progress') || 'null');
+  const readingDate = getReadingDateKey();
   const today = new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
   }).format(new Date());
   const [completedReadings, setCompletedReadings] = useState(
-    savedProgress?.completedReadings || ['john-1']
+    savedProgress?.readingDate === readingDate
+      ? (savedProgress.completedReadings || []).filter((id) =>
+        assignedReadings.some((reading) => reading.id === id)
+      )
+      : []
   );
-  const [plan, setPlan] = useState(savedProgress?.plan || '5x5 Weekday Plan');
+  const [plan, setPlan] = useState(
+    savedProgress?.plan === '5x5 Weekday Plan' ? savedProgress.plan : '5x5 Weekday Plan'
+  );
   const [streak] = useState(savedProgress?.streak || 7);
 
   useEffect(() => {
     localStorage.setItem(
       'nt-connect-progress',
-      JSON.stringify({ completedReadings, plan, streak })
+      JSON.stringify({ completedReadings, plan, streak, readingDate })
     );
   }, [completedReadings, plan, streak]);
 
@@ -48,13 +56,13 @@ export function Home() {
         <section aria-labelledby="progress-heading">
           <h2 id="progress-heading" className="section-title mt-5">Your progress</h2>
           <div className="d-flex justify-content-between mb-2">
-            <span>{completedReadings.length} of {ASSIGNED_READINGS.length} chapters completed</span>
-            <strong>{Math.round((completedReadings.length / ASSIGNED_READINGS.length) * 100)}%</strong>
+            <span>{completedReadings.length} of {assignedReadings.length} reading completed</span>
+            <strong>{Math.round((completedReadings.length / assignedReadings.length) * 100)}%</strong>
           </div>
           <progress
             className="w-100"
             value={completedReadings.length}
-            max={ASSIGNED_READINGS.length}
+            max={assignedReadings.length}
             aria-label="Today's reading progress"
           />
         </section>
@@ -69,17 +77,20 @@ export function Home() {
               value={plan}
               onChange={(event) => setPlan(event.target.value)}
             >
-              <option>5x5 Weekday Plan</option>
-              <option>90-Day Sprint</option>
+              {PLAN_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value} disabled={option.disabled}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </div>
-          <p className="mt-2 mb-0">Today's assigned readings are ready when you are.</p>
+          <p className="mt-2 mb-0">Today's assigned reading is ready when you are.</p>
         </section>
 
         <section aria-labelledby="assigned-heading">
-          <h2 id="assigned-heading" className="section-title mt-4">Today's assigned readings</h2>
+          <h2 id="assigned-heading" className="section-title mt-4">Today's assigned reading</h2>
           <div className="list-group">
-            {ASSIGNED_READINGS.map((reading) => {
+            {assignedReadings.map((reading) => {
               const completed = completedReadings.includes(reading.id);
 
               return (
