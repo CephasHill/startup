@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ChapterReader } from '../components/ChapterReader';
-import { NEW_TESTAMENT_BOOKS, loadGospel } from '../data/bible';
+import {
+  BIBLE_VERSIONS,
+  NEW_TESTAMENT_BOOKS,
+  getSavedBibleVersion,
+  loadGospel,
+  saveBibleVersion,
+} from '../data/bible';
 
 const lastLibraryChapterKey = 'nt-connect-last-library-chapter';
 
@@ -22,6 +28,7 @@ export function Library() {
   const [error, setError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [browseBookSlug, setBrowseBookSlug] = useState(activeBookSlug);
+  const [bibleVersion, setBibleVersion] = useState(getSavedBibleVersion);
 
   useEffect(() => {
     setBrowseBookSlug(activeBookSlug);
@@ -52,7 +59,7 @@ export function Library() {
       setError('');
 
       try {
-        const data = await loadGospel(selectedBook.slug);
+        const data = await loadGospel(selectedBook.slug, bibleVersion);
 
         if (!cancelled) {
           setChapters(data);
@@ -73,7 +80,13 @@ export function Library() {
     return () => {
       cancelled = true;
     };
-  }, [selectedBook.slug]);
+  }, [bibleVersion, selectedBook.slug]);
+
+  const changeBibleVersion = (event) => {
+    const nextVersion = event.target.value;
+    setBibleVersion(nextVersion);
+    saveBibleVersion(nextVersion);
+  };
 
   useEffect(() => {
     if (activeChapter >= 1 && activeChapter <= selectedBook.chapters) {
@@ -94,15 +107,28 @@ export function Library() {
             <p className="section-title mb-1">Bible Library</p>
             <h1 className="mb-0">{selectedBook.name} {activeChapter}</h1>
           </div>
-          <button
-            className="btn btn-outline-primary"
-            type="button"
-            aria-expanded={menuOpen}
-            aria-controls="library-navigator"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? 'Close navigator' : 'Browse Bible'}
-          </button>
+          <div className="d-flex flex-wrap align-items-center gap-2">
+            <label className="visually-hidden" htmlFor="bible-version">Bible version</label>
+            <select
+              className="form-select"
+              id="bible-version"
+              value={bibleVersion}
+              onChange={changeBibleVersion}
+            >
+              {BIBLE_VERSIONS.map((version) => (
+                <option key={version.value} value={version.value}>{version.label}</option>
+              ))}
+            </select>
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="library-navigator"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? 'Close navigator' : 'Browse Bible'}
+            </button>
+          </div>
         </div>
 
         {menuOpen && (

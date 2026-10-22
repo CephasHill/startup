@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ChapterReader } from '../components/ChapterReader';
-import { loadGospel } from '../data/bible';
+import {
+  BIBLE_VERSIONS,
+  getSavedBibleVersion,
+  loadGospel,
+  saveBibleVersion,
+} from '../data/bible';
 import { getAssignedReadings, getReadingDateKey } from '../data/readingPlan';
 
 const progressStorageKey = 'nt-connect-progress';
@@ -22,6 +27,7 @@ export function Read() {
   const previousReading = assignedReadings[currentIndex - 1];
   const nextReading = assignedReadings[currentIndex + 1];
   const [chapters, setChapters] = useState([]);
+  const [bibleVersion, setBibleVersion] = useState(getSavedBibleVersion);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const savedProgress = getSavedProgress();
@@ -47,7 +53,7 @@ export function Read() {
       setError('');
 
       try {
-        const data = await loadGospel(currentReading.book);
+        const data = await loadGospel(currentReading.book, bibleVersion);
 
         if (!cancelled) {
           setChapters(data);
@@ -68,7 +74,7 @@ export function Read() {
     return () => {
       cancelled = true;
     };
-  }, [currentReading.book]);
+  }, [bibleVersion, currentReading.book]);
 
   useEffect(() => {
     const savedProgress = getSavedProgress();
@@ -87,6 +93,12 @@ export function Read() {
         ? current.filter((id) => id !== currentReading.id)
         : [...current, currentReading.id]
     );
+  };
+
+  const changeBibleVersion = (event) => {
+    const nextVersion = event.target.value;
+    setBibleVersion(nextVersion);
+    saveBibleVersion(nextVersion);
   };
 
   if (loading) {
@@ -109,7 +121,20 @@ export function Read() {
             &larr; Previous
           </Link>
         ) : <span />}
-        <span className="text-secondary text-center">Reading {currentIndex + 1} of {assignedReadings.length}</span>
+        <div className="d-flex flex-column align-items-center gap-1">
+          <span className="text-secondary text-center">Reading {currentIndex + 1} of {assignedReadings.length}</span>
+          <label className="visually-hidden" htmlFor="read-bible-version">Bible version</label>
+          <select
+            className="form-select form-select-sm"
+            id="read-bible-version"
+            value={bibleVersion}
+            onChange={changeBibleVersion}
+          >
+            {BIBLE_VERSIONS.map((version) => (
+              <option key={version.value} value={version.value}>{version.label}</option>
+            ))}
+          </select>
+        </div>
         {nextReading ? (
           <Link className="btn btn-outline-primary" to={`/read/${nextReading.book}/${nextReading.chapter}`}>
             Next &rarr;

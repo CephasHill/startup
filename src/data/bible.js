@@ -30,11 +30,31 @@ export const NEW_TESTAMENT_BOOKS = [
 
 export const GOSPELS = NEW_TESTAMENT_BOOKS.slice(0, 4);
 
-export async function loadGospel(book) {
-  const response = await fetch(`/data/bible/${book}_bsb.json`);
+export const BIBLE_VERSIONS = [
+  { value: 'bsb', label: 'BSB' },
+  { value: 'kjv', label: 'KJV (AKJV text)' },
+];
+
+const bibleVersionStorageKey = 'nt-connect-bible-version';
+
+export function getSavedBibleVersion() {
+  const savedVersion = localStorage.getItem(bibleVersionStorageKey);
+  return BIBLE_VERSIONS.some((version) => version.value === savedVersion)
+    ? savedVersion
+    : 'bsb';
+}
+
+export function saveBibleVersion(version) {
+  if (BIBLE_VERSIONS.some((availableVersion) => availableVersion.value === version)) {
+    localStorage.setItem(bibleVersionStorageKey, version);
+  }
+}
+
+export async function loadGospel(book, version = 'bsb') {
+  const response = await fetch(`/data/bible/${book}_${version}.json`);
 
   if (!response.ok) {
-    throw new Error(`Unable to load the ${book} chapter data.`);
+    throw new Error(`Unable to load the ${book} chapter data for ${version.toUpperCase()}.`);
   }
 
   return response.json();
