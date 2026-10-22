@@ -9,11 +9,13 @@ import { Read } from './read/read';
 import { Library } from './library/library';
 import { Friends } from './friends/friends';
 import { About } from './about/about';
+import { SettingsProvider } from './context/SettingsContext';
 
 export default function App() {
   return (
   <BrowserRouter>
-    <div className="body">
+    <SettingsProvider>
+      <div className="body">
       <header>
         <nav className="navbar navbar-expand-sm navbar-dark">
           <div className="container page-shell">
@@ -61,7 +63,8 @@ export default function App() {
           <a href="https://github.com/CephasHill/startup">GitHub</a>
         </div>
       </footer>
-    </div>
+      </div>
+    </SettingsProvider>
   </BrowserRouter>
   );
 }

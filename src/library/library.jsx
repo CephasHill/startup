@@ -4,10 +4,9 @@ import { ChapterReader } from '../components/ChapterReader';
 import {
   BIBLE_VERSIONS,
   NEW_TESTAMENT_BOOKS,
-  getSavedBibleVersion,
   loadGospel,
-  saveBibleVersion,
 } from '../data/bible';
+import { useSettings } from '../context/SettingsContext';
 
 const lastLibraryChapterKey = 'nt-connect-last-library-chapter';
 
@@ -57,7 +56,7 @@ export function Library() {
   const [error, setError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [browseBookSlug, setBrowseBookSlug] = useState(activeBookSlug);
-  const [bibleVersion, setBibleVersion] = useState(getSavedBibleVersion);
+  const { bibleVersion, setBibleVersion } = useSettings();
 
   useEffect(() => {
     setBrowseBookSlug(activeBookSlug);
@@ -112,9 +111,7 @@ export function Library() {
   }, [bibleVersion, selectedBook.slug]);
 
   const changeBibleVersion = (event) => {
-    const nextVersion = event.target.value;
-    setBibleVersion(nextVersion);
-    saveBibleVersion(nextVersion);
+    setBibleVersion(event.target.value);
   };
 
   useEffect(() => {

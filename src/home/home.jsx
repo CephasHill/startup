@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAssignedReadings, getReadingDateKey, PLAN_OPTIONS } from '../data/readingPlan';
+import { useReadingProgress } from '../hooks/useReadingProgress';
+import { useSettings } from '../context/SettingsContext';
 
 export function Home() {
   const assignedReadings = getAssignedReadings();
@@ -11,17 +13,9 @@ export function Home() {
     month: 'long',
     day: 'numeric',
   }).format(new Date());
-  const [completedReadings, setCompletedReadings] = useState(
-    savedProgress?.readingDate === readingDate
-      ? (savedProgress.completedReadings || []).filter((id) =>
-        assignedReadings.some((reading) => reading.id === id)
-      )
-      : []
-  );
-  const [plan, setPlan] = useState(
-    savedProgress?.plan === '5x5 Weekday Plan' ? savedProgress.plan : '5x5 Weekday Plan'
-  );
-  const [streak] = useState(savedProgress?.streak || 7);
+  const [completedReadings, setCompletedReadings] = useReadingProgress(assignedReadings, readingDate);
+  const { plan, setPlan } = useSettings();
+  const [streak] = useState(savedProgress?.streak || 0);
 
   useEffect(() => {
     localStorage.setItem(
