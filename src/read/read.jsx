@@ -3,17 +3,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ChapterReader } from '../components/ChapterReader';
 import {
   BIBLE_VERSIONS,
-  getSavedBibleVersion,
   loadGospel,
-  saveBibleVersion,
 } from '../data/bible';
 import { getAssignedReadings, getReadingDateKey } from '../data/readingPlan';
+import { useReadingProgress } from '../hooks/useReadingProgress';
+import { useSettings } from '../context/SettingsContext';
 
 const progressStorageKey = 'nt-connect-progress';
-
-function getSavedProgress() {
-  return JSON.parse(localStorage.getItem(progressStorageKey) || 'null') || {};
-}
 
 export function Read() {
   const { book, chapter } = useParams();
@@ -27,17 +23,10 @@ export function Read() {
   const previousReading = assignedReadings[currentIndex - 1];
   const nextReading = assignedReadings[currentIndex + 1];
   const [chapters, setChapters] = useState([]);
-  const [bibleVersion, setBibleVersion] = useState(getSavedBibleVersion);
+  const { bibleVersion, setBibleVersion } = useSettings();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const savedProgress = getSavedProgress();
-  const [completedReadings, setCompletedReadings] = useState(
-    savedProgress.readingDate === readingDate
-      ? (savedProgress.completedReadings || []).filter((id) =>
-        assignedReadings.some((reading) => reading.id === id)
-      )
-      : []
-  );
+  const [completedReadings, setCompletedReadings] = useReadingProgress(assignedReadings, readingDate);
 
   useEffect(() => {
     if (!book || Number(chapter) !== currentReading.chapter || book !== currentReading.book) {
@@ -77,7 +66,7 @@ export function Read() {
   }, [bibleVersion, currentReading.book]);
 
   useEffect(() => {
-    const savedProgress = getSavedProgress();
+    const savedProgress = JSON.parse(localStorage.getItem(progressStorageKey) || 'null') || {};
     localStorage.setItem(
       progressStorageKey,
       JSON.stringify({ ...savedProgress, completedReadings, readingDate })
@@ -96,9 +85,7 @@ export function Read() {
   };
 
   const changeBibleVersion = (event) => {
-    const nextVersion = event.target.value;
-    setBibleVersion(nextVersion);
-    saveBibleVersion(nextVersion);
+    setBibleVersion(event.target.value);
   };
 
   if (loading) {
