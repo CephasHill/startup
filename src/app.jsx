@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { Home } from './home/home';
 import { Login } from './login/login';
 import { Read } from './read/read';
 import { Library } from './library/library';
@@ -33,13 +34,17 @@ export default function App() {
               <li className="nav-item">
                 <NavLink className="nav-link" to="/about">About</NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/login">Log in</NavLink>
+              </li>
             </menu>
           </div>
         </nav>
       </header>
 
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/read" element={<Read />} />
         <Route path="/library" element={<Library />} />
         <Route path="/library/:book/:chapter" element={<Library />} />

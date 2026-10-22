@@ -117,9 +117,10 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [X] **All functionality implemented or mocked out** - Added a reactive home dashboard with today's assigned readings, completion tracking, current reading plan, and reading streak. The login and account creation flows are clearly mocked until the service deliverable. The Bible Library is dedicated to browsing Gospel chapters and opening the existing chapter reader.
+- [X] **Hooks** - Used `useState` for reading completion, plan selection, login feedback, and asynchronous chapter loading. Used `useEffect` to persist dashboard progress in local storage and to load selected Bible chapters.
+- [X] **Separate home and login screens** - The `/` route now displays the reading dashboard, while `/login` is a separate login page. The dashboard and login navigation are available from the shared navigation bar.
 
 ## 🚀 Service deliverable
 

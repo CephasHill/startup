@@ -29,6 +29,9 @@ Interesting things I have learned about HTML
 ## React
 
 Interesting things I have learned about React
+React Router keeps the dashboard, login, and Bible Library as separate views while the shared navigation stays mounted.
+`useState` makes the assigned-reading checklist and plan selector reactive, and `useEffect` can persist that state to localStorage.
+The dashboard should own progress and streak information; the Library should stay focused on browsing and reading Bible chapters.
 
 ## CSS
 

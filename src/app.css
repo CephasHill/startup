@@ -63,6 +63,17 @@ main {
   text-transform: uppercase;
 }
 
+.streak-card {
+  min-width: 7rem;
+  background: var(--nt-ink);
+  color: #fff;
+}
+
+.plan-select {
+  width: auto;
+  min-width: 13rem;
+}
+
 .verse {
   border-left: 0.25rem solid var(--nt-gold);
   line-height: 1.8;
