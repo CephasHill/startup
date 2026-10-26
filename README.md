@@ -1,20 +1,39 @@
-# Daily New Testament
+# NT Connect
 
-[My Notes](notes.md)
+> A React reading companion that helps people build a consistent New Testament reading habit.
 
-Daily New Testament is a web application that takes structured New Testament reading plans and transforms them into a shared, social experience.
+[Live site](https://peterhill.click) · [GitHub repository](https://github.com/CephasHill/startup) · [Development notes](notes.md)
 
-> [!NOTE]
-> This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
+> **Project status:** Work in progress. The React frontend and core reading experience are functional, while backend persistence, authentication, and real-time social features remain planned course milestones.
 
-> [!NOTE]
-> If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing.
+## Project overview
 
-### Elevator pitch
+NT Connect turns a structured New Testament reading plan into an approachable daily experience. Users can view assigned chapters, read the full New Testament, choose a translation, track progress, and explore social features designed to make reading more consistent and encouraging.
 
-Building a daily Bible reading habit is hard to do entirely alone. Daily New Testament takes structured New Testament reading plans and transforms them into a shared, social experience. Users can log in, read their daily chapters, track their streaks, and instantly share their favorite verses with a network of friends. By adding live streak updates and real-time verse sharing, the app takes what is typically a solitary activity and turns it into a supportive, community-driven habit.
+This project demonstrates a responsive React single-page application, client-side routing, reusable components, local state management with Context and Hooks, date-based reading logic, and a large set of structured Bible data. It was built as a BYU CS 260 project and developed incrementally through the course deliverables below.
 
-### Design
+## Highlights
+
+- **Daily reading workflow:** Date-based chapter assignments, completion tracking, and streak-focused dashboard.
+- **Reading experience:** Full New Testament navigation, chapter routes, verse numbering, footnotes, and translation selection.
+- **Responsive interface:** Bootstrap and custom CSS create a consistent experience across desktop and mobile layouts.
+- **Social direction:** Friends and activity views provide the foundation for shared progress and verse sharing.
+- **Maintainable structure:** React components are organized by feature, with shared settings and progress managed through context providers.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Then open the local URL printed by Vite. A production build can be created with `npm run build`.
+
+## Elevator pitch
+
+Building a daily Bible reading habit is hard to do entirely alone. NT Connect takes a structured New Testament reading plan and turns it into a clear, encouraging daily workflow. Users can explore assigned chapters, track their reading progress, choose a translation, and browse the foundation for future friend activity and verse sharing. The project is designed to turn a typically solitary activity into a supportive, community-driven habit as its service and real-time features continue to evolve.
+
+## Design and user experience
 
 ![Streak Tracking and Daily Assigned Readings](StreakAndAssignedReadings.png)
 The home dashboard features a top-level progress bar, a live streak counter, and an interactive checklist of assigned readings for the current day.
@@ -36,26 +55,30 @@ sequenceDiagram
     Friends-->>User: View live progress on dashboard
 ```
 
-### Key features
+## Key features
 
-- Secure Authentication: User login, registration, and logout functionality.
+- Authentication foundation: A dedicated login experience and course-planned registration and logout flow.
 - Structured Reading Plans: Users can select different timelines to read the New Testament, such as the weekly 5x5 Weekday Plan (260 chapters over 52 weeks) or the 90-Day Sprint.
 - Reading Interface: A clean, responsive library canvas to read chapters, complete with footnote support and multiple translations.
-- Live Friends & Streaks: View a friends list with their current reading streaks.
-- Real-Time Sharing: A feature to highlight verses and push them instantly to friends.
+- Friends & Streaks foundation: A friends view and progress-focused dashboard are in place for the planned social experience.
+- Real-Time Sharing roadmap: Verse highlighting and instant sharing are planned extensions of the current reading experience.
 
-### Technologies
+## Technologies and implementation
 
-I am going to use the required technologies in the following ways.
+The current frontend is implemented with the following technologies. The backend, database, third-party API, and WebSocket items are documented as course targets in the deliverable sections below rather than presented as completed functionality.
 
-- **HTML** - The app will use correct, semantic HTML to structure the user interface. It will consist of at least two main views: a login/authentication screen and the main reading/dashboard canvas.
-- **CSS** - The app will be styled to be fully responsive across mobile devices and desktop screens, utilizing whitespace and accessible color contrast.
-- **React** - The frontend will be built as a Single Page Application (SPA) using React. Components will modularize features like the reading screen, the friends list, and the login form. React Router will handle navigation between the dashboard and the reading canvas.
-- **Service** - A backend Node.js service will provide endpoints for registering and authenticating users, saving and retrieving user reading progress (streaks), and fetching text data for the selected reading plan. The app will also feature a 3rd Party API call to fetch a daily inspirational background image for the dashboard using the public [Unsplash API](https://unsplash.com/developers).
-- **DB/Login** - A MongoDB database will securely store user credentials, user streak data, friend connections, and saved bookmarks/messages.
-- **WebSocket** - Real-time communication will be used for the social features. When a user completes their daily reading, their streak update is broadcast live to their friends' dashboards. Users can also push a "shared verse" to a friend's screen in real time.
+- **HTML** - Semantic page structure supports the login, dashboard, reading, library, friends, and about views.
+- **CSS and Bootstrap** - Responsive layouts, accessible contrast, reusable styles, and responsive navigation.
+- **React and React Router** - A Vite-powered single-page application with feature-based components and route-based navigation.
+- **React Context and Hooks** - Shared reading settings and progress state, including persistence in browser local storage.
+- **Structured JSON data** - New Testament text and translation data are stored locally for fast chapter navigation without a network dependency.
+- **Planned service integrations** - The original course design includes a Node.js service, MongoDB authentication and persistence, the [Unsplash API](https://unsplash.com/developers), and WebSocket updates for future social functionality.
 
-## 🚀 Specification Deliverable
+## Course deliverables
+
+The following sections preserve the implementation evidence and rubric checklist used for the CS 260 course.
+
+### 🚀 Specification Deliverable
 
 > [!NOTE]
 > Fill in this sections as the submission artifact for this deliverable. You can refer to this [example](https://github.com/webprogramming260/startup-example/blob/main/README.md) for inspiration.
@@ -69,7 +92,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] Description of how you will use each technology including your 3rd party API and use of WebSocket - *Specified the tech stack roles, including WebSocket live updates and the Unsplash API integration link.*
 - [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references. - *Embedded three design screenshots (Dashboard, Active Reading, and Library) with explanatory captions.*
 
-## 🚀 AWS deliverable
+### 🚀 AWS deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -77,7 +100,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] **Leased domain name** - *I leased the domain peterhill.click.*
 - [x] **Server accessible** from my domain: [https://peterhill.click](https://peterhill.click) - *My website is accessible and supports HTTPS protocol.*
 
-## 🚀 HTML deliverable
+### 🚀 HTML deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -92,7 +115,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [X] **DB data placeholder** - My New Testament texts will be held in the DB, and I added John 1.
 - [X] **WebSocket placeholder** - I added the friends page where users can interact with each other and see each other's progress.
 
-## 🚀 CSS deliverable
+### 🚀 CSS deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -104,7 +127,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [X] **Use of a imported font** - I added Roboto as a font from Google Fonts.
 - [X] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I used element selectors (body, main, footer), class selectors (.navbar, .page-shell, .content-panel, .reader-frame, etc.), pseudo-class selectors (.navbar-brand:hover, .nav-link:hover, .nav-link:active), descendant selectors (.hero-panel h1, .content-panel h2), and an ID selector (#live-updates) for the unique live activity region.
 
-## 🚀 React part 1: Routing deliverable
+### 🚀 React part 1: Routing deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -113,7 +136,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [X] **Components** - I ported my components to use React.
 - [X] **Router** - I refactored my code to use React to route the app between its pages.
 
-## 🚀 React part 2: Reactivity deliverable
+### 🚀 React part 2: Reactivity deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -125,7 +148,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
   - Storing the reading progress in the Library page.
   - Tracking the Library Browse Bible menu visibility, including listening for the Escape key to close it.
 
-## 🚀 Service deliverable
+### 🚀 Service deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -138,7 +161,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
 - [ ] **Uses BCrypt to hash passwords** - I did not complete this part of the deliverable.
 
-## 🚀 DB deliverable
+### 🚀 DB deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -146,7 +169,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
 - [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
 
-## 🚀 WebSocket deliverable
+### 🚀 WebSocket deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
