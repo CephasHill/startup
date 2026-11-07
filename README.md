@@ -72,7 +72,7 @@ The current frontend is implemented with the following technologies. The backend
 - **React and React Router** - A Vite-powered single-page application with feature-based components and route-based navigation.
 - **React Context and Hooks** - Shared reading settings and progress state, including persistence in browser local storage.
 - **Structured JSON data** - New Testament text and translation data are stored locally for fast chapter navigation without a network dependency.
-- **Planned service integrations** - The original course design includes a Node.js service, MongoDB authentication and persistence, the [Unsplash API](https://unsplash.com/developers), and WebSocket updates for future social functionality.
+- **Planned service integrations** - The original course design includes a Node.js service, MongoDB authentication and persistence, the [Bible API](https://bible-api.com/), and WebSocket updates for future social functionality.
 
 ## Course deliverables
 
