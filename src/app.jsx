@@ -13,6 +13,36 @@ import { SettingsProvider } from './context/SettingsContext';
 import { ProgressProvider } from './context/ProgressContext';
 
 export default function App() {
+  const [userEmail, setUserEmail] = React.useState(null);
+  const [authError, setAuthError] = React.useState('');
+
+  React.useEffect(() => {
+    fetch('/api/auth/me')
+      .then((response) => response.ok ? response.json() : null)
+      .then((user) => {
+        if (user) {
+          setUserEmail(user.email);
+        }
+      })
+      .catch((error) => {
+        setUserEmail(null);
+        setAuthError(error.message);
+      });
+  }, []);
+
+  async function handleLogout() {
+    try {
+      const response = await fetch('/api/auth/logout', { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('Logout failed');
+      }
+      setUserEmail(null);
+      setAuthError('');
+    } catch (error) {
+      setAuthError(error.message);
+    }
+  }
+
   return (
   <BrowserRouter>
     <SettingsProvider>
@@ -39,16 +69,23 @@ export default function App() {
                 <NavLink className="nav-link" to="/about">About</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/login">Log in</NavLink>
+                {userEmail ? (
+                  <button className="btn btn-link nav-link" type="button" onClick={handleLogout}>
+                    Log out
+                  </button>
+                ) : (
+                  <NavLink className="nav-link" to="/login">Log in</NavLink>
+                )}
               </li>
             </menu>
+            {authError && <p className="text-warning mb-0">{authError}</p>}
           </div>
         </nav>
       </header>
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onAuthenticated={setUserEmail} />} />
         <Route path="/read" element={<Read />} />
         <Route path="/read/:book/:chapter" element={<Read />} />
         <Route path="/library" element={<Library />} />

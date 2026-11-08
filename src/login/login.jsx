@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export function Login() {
+export function Login({ onAuthenticated }) {
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
@@ -23,6 +23,7 @@ export function Login() {
         throw new Error(result.msg || `${action} failed`);
       }
 
+      onAuthenticated(result.email);
       setMessage(`Welcome to NT Connect, ${result.email}.`);
       if (action === 'Log in') {
         navigate('/');
