@@ -1,6 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Home } from './home/home';
@@ -18,11 +20,17 @@ export default function App() {
 
   React.useEffect(() => {
     fetch('/api/auth/me')
-      .then((response) => response.ok ? response.json() : null)
-      .then((user) => {
-        if (user) {
-          setUserEmail(user.email);
+      .then((response) => {
+        if (response.status === 401) {
+          return null;
         }
+        if (!response.ok) {
+          throw new Error('Unable to check authentication');
+        }
+        return response.json();
+      })
+      .then((user) => {
+        setUserEmail(user ? user.email : null);
       })
       .catch((error) => {
         setUserEmail(null);
@@ -70,9 +78,19 @@ export default function App() {
               </li>
               <li className="nav-item">
                 {userEmail ? (
-                  <button className="btn btn-link nav-link" type="button" onClick={handleLogout}>
-                    Log out
-                  </button>
+                  <OverlayTrigger
+                    placement="bottom"
+                    overlay={<Tooltip id="signed-in-tooltip">Signed in as {userEmail}</Tooltip>}
+                  >
+                    <button
+                      className="btn btn-link nav-link"
+                      type="button"
+                      onClick={handleLogout}
+                      aria-label={`Log out from ${userEmail}`}
+                    >
+                      Log out
+                    </button>
+                  </OverlayTrigger>
                 ) : (
                   <NavLink className="nav-link" to="/login">Log in</NavLink>
                 )}
