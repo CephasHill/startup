@@ -2,9 +2,9 @@
 
 > A React reading companion that helps people build a consistent New Testament reading habit.
 
-[Live site](https://peterhill.click) · [GitHub repository](https://github.com/CephasHill/startup) · [Development notes](notes.md)
+[Live site](https://startup.peterhill.click) · [GitHub repository](https://github.com/CephasHill/startup) · [Development notes](notes.md)
 
-> **Project status:** Work in progress. The React frontend and core reading experience are functional, while backend persistence, authentication, and real-time social features remain planned course milestones.
+> **Project status:** Work in progress. The React frontend, authentication flow, Express service, restricted authentication endpoint, and Bible API integration are functional and deployed. MongoDB persistence and real-time social features remain planned course milestones.
 
 ## Project overview
 
@@ -65,14 +65,14 @@ sequenceDiagram
 
 ## Technologies and implementation
 
-The current frontend is implemented with the following technologies. The backend, database, third-party API, and WebSocket items are documented as course targets in the deliverable sections below rather than presented as completed functionality.
+The React frontend, Node.js service, authentication flow, and Bible API integration are implemented and deployed. MongoDB persistence and WebSocket features remain planned for later course deliverables.
 
 - **HTML** - Semantic page structure supports the login, dashboard, reading, library, friends, and about views.
 - **CSS and Bootstrap** - Responsive layouts, accessible contrast, reusable styles, and responsive navigation.
 - **React and React Router** - A Vite-powered single-page application with feature-based components and route-based navigation.
 - **React Context and Hooks** - Shared reading settings and progress state, including persistence in browser local storage.
 - **Structured JSON data** - New Testament text and translation data are stored locally for fast chapter navigation without a network dependency.
-- **Planned service integrations** - The original course design includes a Node.js service, MongoDB authentication and persistence, the [Bible API](https://bible-api.com/), and WebSocket updates for future social functionality.
+- **Service integrations** - A Node.js/Express service provides registration, login, logout, a restricted authentication endpoint, and a proxy endpoint for random New Testament verses from the Bible API. MongoDB persistence and WebSocket updates remain planned.
 
 ## Course deliverables
 
@@ -89,7 +89,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] Proper use of Markdown - *Formatted using structured headers, inline bolding, lists, and an embedded Mermaid diagram.*
 - [x] A concise and compelling elevator pitch - *Wrote an elevator pitch focusing on turning solitary Bible reading into a collaborative habit.*
 - [x] Description of key features - *Detailed authentication, reading plans, reading UI, streaks, and real-time verse sharing.*
-- [x] Description of how you will use each technology including your 3rd party API and use of WebSocket - *Specified the tech stack roles, including WebSocket live updates and the Unsplash API integration link.*
+- [x] Description of how you will use each technology including your 3rd party API and use of WebSocket - *Specified the tech stack roles, including WebSocket live updates and the Bible API integration link.*
 - [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references. - *Embedded three design screenshots (Dashboard, Active Reading, and Library) with explanatory captions.*
 
 ### 🚀 AWS deliverable
@@ -98,7 +98,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Rented EC2 server** - *I rented an EC2 server.*
 - [x] **Leased domain name** - *I leased the domain peterhill.click.*
-- [x] **Server accessible** from my domain: [https://peterhill.click](https://peterhill.click) - *My website is accessible and supports HTTPS protocol.*
+- [x] **Server accessible** from my domain: [https://startup.peterhill.click](https://startup.peterhill.click) - *My website is accessible and supports HTTPS protocol.*
 
 ### 🚀 HTML deliverable
 
@@ -152,14 +152,14 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
-- [ ] **Uses BCrypt to hash passwords** - I did not complete this part of the deliverable.
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [X] **Node.js/Express HTTP service** - I installed the Node.js/Express HTTP service.
+- [X] **Static middleware for frontend** - I used Express static middleware to serve the built React frontend and its assets from the service’s public directory.
+- [X] **Calls to third party endpoints** - I incorporated a call to bible-api to request a random verse from the New Testament.
+- [X] **Backend service endpoints** - I incorporated backend service endpoints for register, login, logout, random verse, and restricted.
+- [X] **Frontend calls service endpoints** - In the frontend, I called the service endpoints for register, login, logout, random verse, and restricted, each when appropriate.
+- [X] **Supports registration, login, logout, and restricted endpoint** - I added support for registration, login, logout, and restricted endpoints.
+- [X] **Uses BCrypt to hash passwords** - I hashed passwords using BCrypt.
 
 ### 🚀 DB deliverable
 
