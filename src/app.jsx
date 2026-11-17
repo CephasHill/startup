@@ -54,7 +54,7 @@ export default function App() {
   return (
   <BrowserRouter>
     <SettingsProvider>
-      <ProgressProvider>
+      <ProgressProvider authenticated={Boolean(userEmail)}>
         <div className="body">
       <header>
         <nav className="navbar navbar-expand-sm navbar-dark">
