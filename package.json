@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "dev": "vite",
+    "dev:service": "npm --prefix service start",
     "build": "vite build",
     "preview": "vite preview"
   },

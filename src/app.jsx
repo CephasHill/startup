@@ -27,7 +27,7 @@ export default function App() {
         if (!response.ok) {
           throw new Error('Unable to check authentication');
         }
-        return response.json();
+        return response.text().then((body) => body ? JSON.parse(body) : {});
       })
       .then((user) => {
         setUserEmail(user ? user.email : null);

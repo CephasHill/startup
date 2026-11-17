@@ -4,7 +4,7 @@
 
 [Live site](https://startup.peterhill.click) · [GitHub repository](https://github.com/CephasHill/startup) · [Development notes](notes.md)
 
-> **Project status:** Work in progress. The React frontend, authentication flow, Express service, restricted authentication endpoint, and Bible API integration are functional and deployed. MongoDB persistence and real-time social features remain planned course milestones.
+> **Project status:** The React frontend, authentication flow, Express service, restricted authentication endpoint, Bible API integration, and MongoDB-backed authentication/progress storage are functional. Real-time social features remain planned course milestones.
 
 ## Project overview
 
@@ -25,6 +25,13 @@ This project demonstrates a responsive React single-page application, client-sid
 ```bash
 npm install
 npm run dev
+```
+
+Run the Express service in a second terminal:
+
+```bash
+npm install --prefix service
+npm run dev:service
 ```
 
 Then open the local URL printed by Vite. A production build can be created with `npm run build`.
@@ -165,9 +172,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **Stores data in MongoDB** - User accounts and authenticated daily reading progress are loaded from and saved to MongoDB through the Express service.
+- [x] **Stores credentials in MongoDB** - Account email addresses and bcrypt password hashes are stored in MongoDB; plaintext passwords are never stored.
 
 ### 🚀 WebSocket deliverable
 

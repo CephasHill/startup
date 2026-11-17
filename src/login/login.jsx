@@ -18,7 +18,8 @@ export function Login({ onAuthenticated }) {
         body: JSON.stringify({ email, password }),
       });
 
-      const result = await response.json();
+      const body = await response.text();
+      const result = body ? JSON.parse(body) : {};
       if (!response.ok) {
         throw new Error(result.msg || `${action} failed`);
       }
