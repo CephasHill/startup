@@ -128,7 +128,7 @@ export function Read() {
           />
           <span>
             <strong>Mark {currentReading.label} as complete</strong>
-            <span className="d-block text-secondary small">Your progress will be saved to this browser.</span>
+            <span className="d-block text-secondary small">Your progress and streak are saved to your account.</span>
           </span>
         </label>
       </div>

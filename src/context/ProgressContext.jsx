@@ -7,6 +7,43 @@ function getSavedProgress() {
   return JSON.parse(localStorage.getItem(progressStorageKey) || 'null') || {};
 }
 
+function parseDateKey(dateKey) {
+  const [year, month, day] = dateKey.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function getPreviousWeekday(date) {
+  const previous = new Date(date);
+  previous.setDate(previous.getDate() - 1);
+
+  while (previous.getDay() === 0 || previous.getDay() === 6) {
+    previous.setDate(previous.getDate() - 1);
+  }
+
+  return previous;
+}
+
+function calculateStreak(completedDates, readingDate) {
+  const dates = new Set(completedDates);
+  let cursor = parseDateKey(readingDate);
+
+  if (cursor.getDay() === 0 || cursor.getDay() === 6) {
+    cursor = getPreviousWeekday(cursor);
+  }
+
+  if (!dates.has(getReadingDateKey(cursor))) {
+    cursor = getPreviousWeekday(cursor);
+  }
+
+  let streak = 0;
+  while (dates.has(getReadingDateKey(cursor))) {
+    streak += 1;
+    cursor = getPreviousWeekday(cursor);
+  }
+
+  return streak;
+}
+
 export function ProgressProvider({ children, authenticated = false }) {
   const savedProgress = getSavedProgress();
   const readingDate = getReadingDateKey();
@@ -16,6 +53,7 @@ export function ProgressProvider({ children, authenticated = false }) {
       ? (savedProgress.completedReadings || []).filter((id) => assignedReadingIds.includes(id))
       : []
   ));
+  const [completedDates, setCompletedDates] = useState(savedProgress.completedDates || []);
   const [streak, setStreak] = useState(savedProgress.streak || 0);
   const [progressLoaded, setProgressLoaded] = useState(false);
 
@@ -25,6 +63,7 @@ export function ProgressProvider({ children, authenticated = false }) {
       return;
     }
 
+    setProgressLoaded(false);
     let cancelled = false;
 
     fetch('/api/progress')
@@ -43,8 +82,14 @@ export function ProgressProvider({ children, authenticated = false }) {
         const serverProgress = progress.readingDate === readingDate
           ? (progress.completedReadings || []).filter((id) => assignedReadingIds.includes(id))
           : [];
+        const serverCompletedDates = Array.isArray(progress.completedDates)
+          ? progress.completedDates
+          : serverProgress.length > 0
+            ? [readingDate]
+            : [];
         setCompletedReadings(serverProgress);
-        setStreak(progress.streak || 0);
+        setCompletedDates(serverCompletedDates);
+        setStreak(calculateStreak(serverCompletedDates, readingDate));
         setProgressLoaded(true);
       })
       .catch(() => {
@@ -59,10 +104,43 @@ export function ProgressProvider({ children, authenticated = false }) {
   useEffect(() => {
     if (!progressLoaded) return;
 
+    const todayIsComplete = assignedReadingIds.length > 0 &&
+      assignedReadingIds.every((id) => completedReadings.includes(id));
+    const nextCompletedDates = new Set(completedDates);
+
+    if (todayIsComplete) {
+      nextCompletedDates.add(readingDate);
+    } else {
+      nextCompletedDates.delete(readingDate);
+    }
+
+    const normalizedDates = Array.from(nextCompletedDates);
+    const nextStreak = calculateStreak(normalizedDates, readingDate);
+
+    if (normalizedDates.length !== completedDates.length ||
+        normalizedDates.some((date) => !completedDates.includes(date))) {
+      setCompletedDates(normalizedDates);
+    }
+    if (nextStreak !== streak) {
+      setStreak(nextStreak);
+    }
+  }, [
+    assignedReadingIds,
+    completedDates,
+    completedReadings,
+    progressLoaded,
+    readingDate,
+    streak,
+  ]);
+
+  useEffect(() => {
+    if (!progressLoaded) return;
+
     const currentProgress = getSavedProgress();
     const nextProgress = {
       ...currentProgress,
       completedReadings,
+      completedDates,
       streak,
       readingDate,
     };
