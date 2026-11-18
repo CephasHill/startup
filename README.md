@@ -173,7 +173,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
 - [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [x] **Stores data in MongoDB** - User accounts and authenticated daily reading progress are loaded from and saved to MongoDB through the Express service.
+- [x] **Stores data in MongoDB** - User accounts, authenticated daily reading progress, and streak data are loaded from and saved to MongoDB through the Express service.
 - [x] **Stores credentials in MongoDB** - Account email addresses and bcrypt password hashes are stored in MongoDB; plaintext passwords are never stored.
 
 ### 🚀 WebSocket deliverable
